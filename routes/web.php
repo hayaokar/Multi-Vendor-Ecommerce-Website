@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.index');
 });
 
 Route::get('/dashboard', function () {
@@ -47,8 +48,21 @@ Route::middleware(['auth','role:admin'])->group(function (){
 //Vendor dashboard
 Route::middleware(['auth','role:vendor'])->group(function (){
     Route::get('/vendor/dashboard/',[VendorController::class,'VendorDashboard'])->name('vendor.dashboard');
+    Route::get('/vendor/logout/',[VendorController::class,'VendorLogout'])->name('vendor.logout');
+    Route::get('/vendor/profile/',[VendorController::class,'VendorProfile'])->name('vendor.profile');
+    Route::post('/vendor/store/profile/',[VendorController::class,'VendorStoreProfile'])->name('vendor.profile.store');
+    Route::get('/vendor/change/password/',[VendorController::class,'VendorChangePassword'])->name('vendor.change.password');
+    Route::post('/vendor/store/password/',[VendorController::class,'VendorStorePassword'])->name('vendor.update.password');
+});
+
+Route::middleware(['auth'])->group(function (){
+    Route::get('/dashboard',[UserController::class,'UserDashboard'])->name('user.dashboard');
+    Route::post('/user/store/profile/',[UserController::class,'UserProfileStore'])->name('user.profile.store');
+    Route::get('/user/logout/',[UserController::class,'UserLogout'])->name('user.logout');
+    Route::post('/user/change/password/',[UserController::class,'UserChangePassword'])->name('user.change.password');
 });
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
+Route::get('/vendor/login', [VendorController::class, 'VendorLogin']);
 
 require __DIR__.'/auth.php';
