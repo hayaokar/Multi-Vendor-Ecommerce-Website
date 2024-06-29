@@ -28,6 +28,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css" >
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+
+    <link href="assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <title>Rukada - Responsive Bootstrap 5 Admin Template</title>
@@ -78,11 +80,15 @@
 <script src="{{asset('adminbackend/assets/js/index.js')}}"></script>
 <!--app JS-->
 <script src="{{asset('adminbackend/assets/js/app.js')}}"></script>
+<script src="{{asset('adminbackend/assets/js/validate.min.js')}}"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-
+<script src="{{asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminbackend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
+<
 <script>
+
+
     @if(Session::has('message'))
     var type = "{{ Session::get('alert-type','info') }}"
     switch(type){
@@ -103,7 +109,16 @@
             break;
     }
     @endif
+
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="{{ asset('adminbackend/assets/js/code.js') }}"></script>
+
 </body>
 
 </html>
