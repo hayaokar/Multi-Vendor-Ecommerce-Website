@@ -37,16 +37,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-//Admin dashboard
-Route::middleware(['auth','role:admin'])->group(function (){
-    Route::get('/admin/dashboard/',[AdminController::class,'AdminDashboard'])->name('admin.dashboard');
-    Route::get('/admin/logout/',[AdminController::class,'AdminLogout'])->name('admin.logout');
-    Route::get('/admin/profile/',[AdminController::class,'AdminProfile'])->name('admin.profile');
-    Route::post('/admin/store/profile/',[AdminController::class,'AdminStoreProfile'])->name('admin.profile.store');
-    Route::get('/admin/change/password/',[AdminController::class,'AdminChangePassword'])->name('admin.change.password');
-    Route::post('/admin/store/password/',[AdminController::class,'AdminStorePassword'])->name('update.password');
 
-});
 
 //Vendor dashboard
 Route::middleware(['auth','role:vendor'])->group(function (){
@@ -67,6 +58,13 @@ Route::middleware(['auth'])->group(function (){
 
 //All Brand Routes
 Route::middleware(['auth','role:admin'])->group(function (){
+    Route::get('/admin/dashboard/',[AdminController::class,'AdminDashboard'])->name('admin.dashboard');
+    Route::get('/admin/logout/',[AdminController::class,'AdminLogout'])->name('admin.logout');
+    Route::get('/admin/profile/',[AdminController::class,'AdminProfile'])->name('admin.profile');
+    Route::post('/admin/store/profile/',[AdminController::class,'AdminStoreProfile'])->name('admin.profile.store');
+    Route::get('/admin/change/password/',[AdminController::class,'AdminChangePassword'])->name('admin.change.password');
+    Route::post('/admin/store/password/',[AdminController::class,'AdminStorePassword'])->name('update.password');
+
     Route::controller(BrandController::class)->group(function (){
         Route::get('/all/brand','AllBrand')->name('all.brand');
         Route::get('/add/brand','AddBrand')->name('add.brand');
@@ -75,9 +73,7 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/edit/brand/','UpdateBrand')->name('update.brand');
         Route::get('/delete/brand/{id}','DeleteBrand')->name('delete.brand');
     });
-});
 
-Route::middleware(['auth','role:admin'])->group(function (){
     Route::controller(CategoryController::class)->group(function (){
         Route::get('/all/category','AllCategory')->name('all.category');
         Route::get('/add/category','AddCategory')->name('add.category');
@@ -86,9 +82,7 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/edit/category/','UpdateCategory')->name('update.category');
         Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
-});
 
-Route::middleware(['auth','role:admin'])->group(function (){
     Route::controller(SubCategoryController::class)->group(function (){
         Route::get('/all/subcategory','AllSubCategory')->name('all.subcategory');
         Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
@@ -97,9 +91,18 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/edit/subcategory/','UpdateSubCategory')->name('update.subcategory');
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
+
+    Route::controller(AdminController::class)->group(function (){
+        Route::get('inactive/vendor','InactiveVendor')->name('inactive.vendor');
+        Route::get('active/vendor','ActiveVendor')->name('active.vendor');
+        Route::get('activate/vendor/{id}','ActivateVendor')->name('activate.vendor');
+        Route::get('deactivate/vendor/{id}','DeActivateVendor')->name('deactivate.vendor');
+    });
 });
 
 Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
-Route::get('/vendor/login', [VendorController::class, 'VendorLogin']);
+Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');
+Route::get('/become/vendor', [VendorController::class, 'BecomeVendor'])->name('become.vendor');
+Route::post('/register/vendor', [VendorController::class, 'RegisterVendor'])->name('register.vendor');
 
 require __DIR__.'/auth.php';
