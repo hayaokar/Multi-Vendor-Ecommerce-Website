@@ -115,9 +115,11 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/delete/product/{id}','DeleteProduct')->name('delete.product');
     });
 });
+Route::middleware('guest')->group(function () {
+    Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
+    Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');
+});
 
-Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->middleware(RedirectIfAuthenticated::class);
-Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor')->middleware(RedirectIfAuthenticated::class);
 Route::get('/become/vendor', [VendorController::class, 'BecomeVendor'])->name('become.vendor');
 Route::post('/register/vendor', [VendorController::class, 'RegisterVendor'])->name('register.vendor');
 
