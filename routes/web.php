@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
+use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
@@ -48,6 +49,21 @@ Route::middleware(['auth','role:vendor'])->group(function (){
     Route::post('/vendor/store/profile/',[VendorController::class,'VendorStoreProfile'])->name('vendor.profile.store');
     Route::get('/vendor/change/password/',[VendorController::class,'VendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/store/password/',[VendorController::class,'VendorStorePassword'])->name('vendor.update.password');
+
+    Route::controller(VendorProductController::class)->group(function (){
+        Route::get('/vendor/all/product','VendorAllProduct')->name('vendor.all.product');
+        Route::get('/vendor/add/product','VendorAddProduct')->name('vendor.add.product');
+        Route::get('/vendor/subcategory/ajax/{id}','VendorGetSubCategory');
+        Route::post('/vendor/add/products','VendorStoreProduct')->name('vendor.store.product');
+        Route::get('/vendor/edit/products/{id}','VendorEditProduct')->name('vendor.edit.product');
+        Route::post('/vendor/update/product' , 'VendorUpdateProduct')->name('vendor.update.product');
+        Route::post('/vendor/update/product/thambnail' , 'VendorUpdateProductThambnail')->name('vendor.update.product.thambnail');
+        Route::post('/vendor/update/product/multiimage' , 'VendorUpdateProductMultiimage')->name('vendor.update.product.multiimage');
+        Route::get('/vendor/product/multiimg/delete/{id}','VendorMultiImageDelete')->name('vendor.product.multimage.delete');
+        Route::get('/vendor/product/inactive/{id}','VendorProductInactive')->name('vendor.product.inactive');
+        Route::get('/vendor/product/active/{id}','VendorProductActive')->name('vendor.product.active');
+        Route::get('/vendor/delete/product/{id}','VendorDeleteProduct')->name('vendor.delete.product');
+    });
 });
 
 Route::middleware(['auth'])->group(function (){
