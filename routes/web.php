@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\VendorProductController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VendorController;
@@ -140,6 +141,16 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/edit/slider/{id}','EditSlider')->name('edit.slider');
         Route::post('/edit/slider/','UpdateSlider')->name('update.slider');
         Route::get('/delete/slider/{id}','DeleteSlider')->name('delete.slider');
+    });
+
+    //Banner Routes
+    Route::controller(BannerController::class)->group(function (){
+        Route::get('/all/banners','AllBanners')->name('all.banners');
+        Route::get('/add/banner','AddBanner')->name('add.banner');
+        Route::post('/add/banner','StoreBanner')->name('store.banner');
+        Route::get('/edit/banner/{id}','EditBanner')->name('edit.banner');
+        Route::post('/edit/banner/','UpdateBanner')->name('update.banner');
+        Route::get('/delete/banner/{id}','DeleteBanner')->name('delete.banner');
     });
 });
 Route::middleware('guest')->group(function () {
