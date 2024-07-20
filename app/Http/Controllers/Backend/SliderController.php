@@ -22,7 +22,7 @@ class SliderController extends Controller
     public function StoreSlider(Request $request){
         $file      = $request->file('photo');
         $file_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-        Image::read($file)->resize(300,300)->save(public_path('upload/slider_images/'.$file_name));
+        Image::read($file)->resize(2376,807)->save(public_path('upload/slider_images/'.$file_name));
         $url = 'upload/slider_images/'.$file_name;
         Slider::insert([
             'slider_title' => $request->slider_title,
@@ -45,7 +45,7 @@ class SliderController extends Controller
         if($request->file()){
             $file = $request->file('photo');
             $file_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-            Image::read($file)->resize(300,300)->save(public_path('upload/slider_images/'.$file_name));
+            Image::read($file)->resize(2376,807)->save(public_path('upload/slider_images/'.$file_name));
             unlink($request->old_image);
             $url = 'upload/slider_images/'.$file_name;
             $slider->slider_img = $url;

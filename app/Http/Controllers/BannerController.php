@@ -18,7 +18,7 @@ class BannerController extends Controller
     public function StoreBanner(Request $request){
         $file      = $request->file('photo');
         $file_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-        Image::read($file)->resize(300,300)->save(public_path('upload/banner_images/'.$file_name));
+        Image::read($file)->resize(768,450)->save(public_path('upload/banner_images/'.$file_name));
         $url = 'upload/banner_images/'.$file_name;
         Banner::insert([
             'banner_title'  => $request->banner_title,
@@ -41,7 +41,7 @@ class BannerController extends Controller
         if($request->file()){
             $file = $request->file('photo');
             $file_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
-            Image::read($file)->resize(300,300)->save(public_path('upload/banner_images/'.$file_name));
+            Image::read($file)->resize(768,450)->save(public_path('upload/banner_images/'.$file_name));
             unlink($request->old_image);
             $url = 'upload/banner_images/'.$file_name;
             $banner->banner_image = $url;
