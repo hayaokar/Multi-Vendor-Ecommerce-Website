@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\category;
 use App\Models\MultiImage;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -34,5 +35,16 @@ class IndexController extends Controller
         $new = Product::where('status','1')->orderBy('id','DESC')->limit(3)->get();
         $special_deals = Product::where('special_deals','1')->orderBy('id','DESC')->limit(3)->get();
         return view('frontend.index',compact('skip_category_0','skip_product_0','skip_category_2','skip_product_2','skip_category_3','skip_product_3','hot_deals','special_offer','new','special_deals'));
+    }
+
+    public function vendorDetails($id){
+        $vendor = User::findorfail($id);
+        $vproduct = Product::where('vendor_id',$id)->get();
+        return view('frontend.vendor.vendor_details',compact('vendor','vproduct'));
+    }
+
+    public function vandorAll(){
+        $vendors = User::where('status','active')->where('role','vendor')->orderBy('id','DESC')->get();
+        return view('frontend.vendor.vendor_all',compact('vendors'));
     }
 }
