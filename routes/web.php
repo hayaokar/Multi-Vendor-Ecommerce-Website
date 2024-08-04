@@ -158,6 +158,8 @@ Route::middleware(['auth','role:admin'])->group(function (){
 Route::get('/product/details/{id}/{slug}',[IndexController::class,'ProductDetails']);
 Route::get('/vendor/details/{id}',[IndexController::class,'vendorDetails'])->name('vendor.details');
 Route::get('/vendor/all',[IndexController::class,'vandorAll'])->name('vendor.all');
+Route::get('/product/category/{id}/{slug}',[IndexController::class,'catWiseProduct']);
+Route::get('/product/subcategory/{id}/{slug}',[IndexController::class,'subCatWiseProduct']);
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
     Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');

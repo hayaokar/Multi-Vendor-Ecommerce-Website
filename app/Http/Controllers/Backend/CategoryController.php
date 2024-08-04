@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $file_name = hexdec(uniqid()).'.'.$file->getClientOriginalExtension();
         Image::read($file)->resize(300,300)->save(public_path('upload/category_images/'.$file_name));
         $url = 'upload/category_images/'.$file_name;
-        $slug = strtolower(str_replace($request->category_name,' ','_'));
+        $slug = str_replace(' ','-',$request->category_name);
         category::insert([
            'category_name'  => $request->category_name,
            'category_image' => $url,
@@ -50,7 +50,7 @@ class CategoryController extends Controller
             $category->category_image = $url;
         }
         $category -> category_name = $request->category_name;
-        $slug = strtolower(str_replace($request->category_name,' ','_'));
+        $slug = str_replace(' ','-',$request->category_name);
         $category -> category_slug = $slug;
         $category->save();
 
