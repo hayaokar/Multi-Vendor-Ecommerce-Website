@@ -1,4 +1,8 @@
 <!-- Header  -->
+@php
+
+    $categories = App\Models\Category::orderBy('category_name','ASC')->get();
+@endphp
 <header class="header-area header-style-1 header-height-2">
     <div class="mobile-promotion">
         <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
@@ -58,23 +62,16 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="index.html"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
+                    <a href="{{url('/')}}"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
                         <form action="#">
                             <select class="select-active">
                                 <option>All Categories</option>
-                                <option>Milks and Dairies</option>
-                                <option>Wines & Alcohol</option>
-                                <option>Clothing & Beauty</option>
-                                <option>Pet Foods & Toy</option>
-                                <option>Fast food</option>
-                                <option>Baking material</option>
-                                <option>Vegetables</option>
-                                <option>Fresh Seafood</option>
-                                <option>Noodles & Rice</option>
-                                <option>Ice cream</option>
+                                @foreach($categories as $item)
+                                    <option>{{$item->category_name}}</option>
+                                @endforeach
                             </select>
                             <input type="text" placeholder="Search for items..." />
                         </form>
@@ -215,10 +212,7 @@
 
 
 
-    @php
 
-        $categories = App\Models\Category::orderBy('category_name','ASC')->get();
-    @endphp
 
 
     <div class="header-bottom header-bottom-bg-color sticky-bar">
@@ -238,14 +232,14 @@
                                 <ul>
                                     @foreach($categories as $item)
                                         <li>
-                                            <a href="shop-grid-right.html"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
+                                            <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}l"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
                                         </li>
                                     @endforeach
                                 </ul>
                                 <ul class="end">
                                     @foreach($categories as $item)
                                         <li>
-                                            <a href="shop-grid-right.html"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
+                                            <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
                                         </li>
                                     @endforeach
 
