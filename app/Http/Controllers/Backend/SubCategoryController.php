@@ -21,7 +21,7 @@ class SubCategoryController extends Controller
     }
     public function StoreSubCategory(Request $request){
 
-        $slug = strtolower(str_replace($request->subcategory_name,' ','_'));
+        $slug = str_replace(' ','-',$request->subcategory_name);
 
         SubCategory::insert([
             'category_id'    => $request->category_id,
@@ -42,7 +42,7 @@ class SubCategoryController extends Controller
     }
 
     public function UpdateSubCategory(Request $request){
-        $slug = strtolower(str_replace($request->subcategory_name,' ','_'));
+        $slug = str_replace(' ','-',$request->subcategory_name);
         $category = SubCategory::findorfail($request->id);
         $category->subcategory_name = $request->subcategory_name;
         $category->subcategory_slug = $slug;
