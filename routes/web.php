@@ -160,6 +160,7 @@ Route::get('/vendor/details/{id}',[IndexController::class,'vendorDetails'])->nam
 Route::get('/vendor/all',[IndexController::class,'vandorAll'])->name('vendor.all');
 Route::get('/product/category/{id}/{slug}',[IndexController::class,'catWiseProduct']);
 Route::get('/product/subcategory/{id}/{slug}',[IndexController::class,'subCatWiseProduct']);
+Route::get('/product/view/modal/{id}',[IndexController::class,'productViewAjax']);
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
     Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');
