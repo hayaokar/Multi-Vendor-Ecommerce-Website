@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -161,6 +162,9 @@ Route::get('/vendor/all',[IndexController::class,'vandorAll'])->name('vendor.all
 Route::get('/product/category/{id}/{slug}',[IndexController::class,'catWiseProduct']);
 Route::get('/product/subcategory/{id}/{slug}',[IndexController::class,'subCatWiseProduct']);
 Route::get('/product/view/modal/{id}',[IndexController::class,'productViewAjax']);
+Route::post('/cart/data/store/{id}',[CartController::class,'AddToCart']);
+Route::get('/cart/data/miniCart',[CartController::class,'miniCart']);
+Route::post('/cart/data/miniCartRemove/{id}',[CartController::class,'miniCartRemove']);
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
     Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');
