@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CompareController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
@@ -160,8 +161,11 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth','role:user'])->group(function (){
    Route::controller(wishlistController::class)->group(function (){
        Route::get('/myWishlist','Wishlist')->name('all.wishlist');
-       Route::get('/get-wishlist-product','GetWishlistProduct');
        Route::post('/remove-wishlist-product/{id}','RemoveWishlistProduct');
+   });
+   Route::controller(CompareController::class)->group(function (){
+       Route::get('/compare','Compare')->name('compare');
+       Route::post('/remove-compare-product/{id}','RemoveCompareProduct');
    });
 });
 
@@ -176,6 +180,9 @@ Route::post('/cart/data/store/{id}',[CartController::class,'AddToCart']);
 Route::get('/cart/data/miniCart',[CartController::class,'miniCart']);
 Route::post('/cart/data/miniCartRemove/{id}',[CartController::class,'miniCartRemove']);
 Route::post('/add-to-wishlist/{id}',[wishlistController::class,'addToWishlist']);
+Route::get('/get-wishlist-product',[wishlistController::class,'GetWishlistProduct']);
+Route::get('/get-compare-product',[CompareController::class,'GetCompareProduct']);
+Route::post('/add-to-compare/{id}',[CompareController::class,'addToCompare']);
 Route::get('/become/vendor', [VendorController::class, 'BecomeVendor'])->name('become.vendor');
 Route::post('/register/vendor', [VendorController::class, 'RegisterVendor'])->name('register.vendor');
 

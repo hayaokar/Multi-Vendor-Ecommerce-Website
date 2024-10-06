@@ -29,12 +29,13 @@ class wishlistController extends Controller
         return view('frontend.wishlist.view_wishlist');
     }
     public function GetWishlistProduct(){
+        if(Auth::check()){
+            $wishlist = Wishlist::with('product')->where('user_id',Auth::id())->latest()->get();
 
-        $wishlist = Wishlist::with('product')->where('user_id',Auth::id())->latest()->get();
+            $wishQty = count($wishlist);
 
-        $wishQty = wishlist::count();
-
-        return response()->json(['wishlist'=> $wishlist, 'wishQty' => $wishQty]);
+            return response()->json(['wishlist'=> $wishlist, 'wishQty' => $wishQty]);
+        }
 
     }// End Method
 

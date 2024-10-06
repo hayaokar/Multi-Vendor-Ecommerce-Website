@@ -18,7 +18,7 @@ $vendors = \App\Models\User::where('status','active')->where('role','vendor')->o
             <div class="vendor-wrap mb-40">
                 <div class="vendor-img-action-wrap">
                     <div class="vendor-img">
-                        <a href="vendor-details-1.html">
+                        <a href="{{route('vendor.details',$vendor->id)}}">
                             <img class="default-img" src="{{!empty($vendor->photo)? url('upload/vendor_images/'.$vendor->photo): url('upload/no_image.jpg')}}"  alt="" />
                         </a>
                     </div>
@@ -32,7 +32,7 @@ $vendors = \App\Models\User::where('status','active')->where('role','vendor')->o
                             <div class="product-category">
                                 <span class="text-muted">Since {{$vendor->vendor_join}}</span>
                             </div>
-                            <h4 class="mb-5"><a href="{{route('vendor.details',$vendor->id)}}l">{{$vendor->name}}</a></h4>
+                            <h4 class="mb-5"><a href="{{route('vendor.details',$vendor->id)}}">{{$vendor->name}}</a></h4>
                             @php
                             $products = count(\App\Models\Product::where('vendor_id',$vendor->id)->get());
                             @endphp

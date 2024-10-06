@@ -282,12 +282,12 @@
             }
         )
     }
-    function addToWishlist($id){
+    function addToWishlist(id){
         $.ajax(
             {
                 type: "POST",
                 dataType: "json",
-                url: "/add-to-wishlist/"+$id,
+                url: "/add-to-wishlist/"+id,
                 success: function (data){
                     wishlist();
                     const Toast = Swal.mixin({
@@ -405,7 +405,126 @@
         })
     }
 
+    function addToCompare(id){
+        $.ajax(
+            {
+                type: "POST",
+                dataType: "json",
+                url: "/add-to-compare/"+id,
+                success: function (data){
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        showCloseButton: true,
+                    })
+                    if($.isEmptyObject(data.error)){
+                        Toast.fire({
+                            type: 'success',
+                            icon: 'success',
+                            title: data.success,
+                        })
+                    }else{
+                        Toast.fire({
+                            type: 'error',
+                            icon: 'error',
+                            title: data.error,
 
+                        })
+                    }
+                }
+            }
+        )
+    }
+    function compare(){
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: "/get-compare-product/",
+
+            success:function(response){
+                $('#compCount').text(response.compQty);
+                var rows = ""
+                var img = `<tr class="pr_image"><td class="text-muted font-sm fw-600 font-heading mw-200">Preview</td>`
+                var name = `<tr class="pr_title"><td class="text-muted font-sm fw-600 font-heading">Name</td>`
+                var price = `<tr class="pr_price"><td class="text-muted font-sm fw-600 font-heading">Price</td>`
+                var desc = `<tr class="description"><td class="text-muted font-sm fw-600 font-heading">Description</td>`
+                var qty = `<tr class="pr_stock"><td class="text-muted font-sm fw-600 font-heading">Stock status</td>`
+                var remove = `<tr class="pr_remove text-muted"><td class="text-muted font-md fw-600"></td>`
+                $.each(response.compare, function(key,value){
+                    img+=`<td class="row_img"><img src="/${value.product.product_thambnail}" alt="compare-img" style="width: 300px;width: 300px" /></td>`
+                    name+=`<td class="product_name">
+                                <h6><a href="shop-product-full.html" class="text-heading">${value.product.product_name}</a></h6>
+                        </td>`
+                    price+=`<td class="product_price">
+                            ${value.product.discount_price == null
+                        ? `<h3 class="text-brand">$${value.product.selling_price}</h3>`
+                        :`<h3 class="text-brand">$${value.product.discount_price}</h3>`
+
+                    }
+                        </td>`
+                    desc+=`
+                        <td class="row_text font-xs">
+                            <p class="font-sm text-muted">${value.product.short_descp}</p>
+                        </td>
+
+                    `
+                    qty+=`<td class="row_stock"> ${value.product.product_qty > 0
+                        ? `<span class="stock-status in-stock mb-0"> In Stock </span>`
+
+                        :`<span class="stock-status out-stock mb-0">Stock Out </span>`
+
+                    }</td>`
+                    remove+=`<td class="row_remove">
+                            <a id="${value.id}" onclick="compareRemove(this.id)" class="text-muted"><i class="fi-rs-trash mr-5"></i><span>Remove</span> </a>
+                        </td>`
+                });
+                img+=`</tr>`
+                name+=`</tr>`
+                price+=`</tr>`
+                desc+=`</tr>`
+                qty+=`</tr>`
+                remove+=`</tr>`
+                rows = img + name + price + desc + qty + remove
+                $('#compare').html(rows);
+
+            }
+        })
+    }
+    compare();
+    function compareRemove(id){
+        $.ajax({
+            url: '/remove-compare-product/'+ id,
+            type:"POST",
+            dataType: "json",
+            success: function (data){
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error,
+                        showCancelButton: true
+                    })
+                }
+                compare();
+            }
+
+        })
+    }
 
 </script>
 

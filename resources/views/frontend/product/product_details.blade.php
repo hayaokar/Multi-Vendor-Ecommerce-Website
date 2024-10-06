@@ -117,8 +117,8 @@
                                     <div class="product-extra-link2">
                                         <input type="hidden" value="{{$product->id}}" id="dproduct_id">
                                         <button type="submit" class="button button-add-to-cart" onclick="addToCartDetailed()"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
-                                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                        <a aria-label="Add To Wishlist" id="{{$product->id}}" onclick="addToWishlist(this.id)" class="action-btn"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn" id="{{$product->id}}" onclick="addToCompare(this.id)"><i class="fi-rs-shuffle"></i></a>
                                     </div>
                                 </div>
 
@@ -267,7 +267,7 @@
                                             </h6>
                                             @else
                                                 <h6>
-                                                    <a href="vendor-details-2.html">{{ $product['vendor']['name'] }}</a>
+                                                    <a href="{{route('vendor.details',$product['vendor']['id'])}}">{{ $product['vendor']['name'] }}</a>
                                                 </h6>
                                             @endif
                                             <div class="product-rate-cover text-end">
@@ -281,7 +281,6 @@
                                     @if($product->vendor_id == null)
                                         <ul class="contact-infor mb-50">
                                             <li><img src="{{asset('frontend/assets/imgs/theme/icons/icon-location.svg')}}" alt="" /><strong>Address: </strong> <span>Owner</span></li>
-                                            <li><img src="{{asset('frontend/assets/imgs/theme/icons/icon-contact.svg')}}" alt="" /><strong>Contact Seller:</strong><span>{{$product->vendor->phone}}</span></li>
                                         </ul>
                                     @else
                                     <ul class="contact-infor mb-50">
@@ -453,8 +452,7 @@
                                                 </div>
                                                 <div class="product-action-1">
                                                     <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="fi-rs-shuffle"></i></a>
+
                                                 </div>
 
                                                 @php
