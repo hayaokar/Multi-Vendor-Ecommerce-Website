@@ -412,6 +412,7 @@
                 dataType: "json",
                 url: "/add-to-compare/"+id,
                 success: function (data){
+                    compare()
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
