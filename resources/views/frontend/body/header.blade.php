@@ -15,7 +15,7 @@
                         <ul>
 
                             <li><a href="page-account.html">My Cart</a></li>
-                            <li><a href="shop-wishlist.html">Checkout</a></li>
+                            <li><a href="{{route('all.wishlist')}}">Checkout</a></li>
                             <li><a href="shop-order.html">Order Tracking</a></li>
                         </ul>
                     </div>
@@ -100,11 +100,11 @@
                             </div>
 
                             <div class="header-action-icon-2">
-                                <a href="shop-wishlist.html">
+                                <a href="{{route('all.wishlist')}}">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg') }}" />
-                                    <span class="pro-count blue">6</span>
+                                    <span class="pro-count blue" id="countWish"></span>
                                 </a>
-                                <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
+                                <a href="{{route('all.wishlist')}}"><span class="lable">Wishlist</span></a>
                             </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
@@ -298,7 +298,7 @@
                 <div class="header-action-right d-block d-lg-none">
                     <div class="header-action-2">
                         <div class="header-action-icon-2">
-                            <a href="shop-wishlist.html">
+                            <a href="{{route('all.wishlist')}}">
                                 <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg') }}" />
                                 <span class="pro-count white">4</span>
                             </a>
@@ -404,7 +404,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="shop-filter.html">Shop – Filter</a></li>
-                                <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                                <li><a href="{{route('all.wishlist')}}">Shop – Wishlist</a></li>
                                 <li><a href="shop-cart.html">Shop – Cart</a></li>
                                 <li><a href="shop-checkout.html">Shop – Checkout</a></li>
                                 <li><a href="shop-compare.html">Shop – Compare</a></li>
