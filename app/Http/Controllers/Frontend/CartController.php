@@ -61,4 +61,19 @@ class CartController extends Controller
         Cart::remove($id);
         return response()->json(['success' => 'Successfully Removed From Your Cart']);
     }
+    public function MyCart(){
+        return view('frontend.mycart.view_mycart');
+    }
+    public function qtyDecrement($id){
+        $row = Cart::get($id);
+        Cart::update($id,$row->qty-1);
+        return response()->json('Decrement');
+
+    }
+    public function qtyIncrement($id){
+        $row = Cart::get($id);
+        Cart::update($id,$row->qty+1);
+        return response()->json('Increment');
+
+    }
 }

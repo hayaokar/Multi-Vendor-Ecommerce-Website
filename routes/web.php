@@ -167,6 +167,15 @@ Route::middleware(['auth','role:user'])->group(function (){
        Route::get('/compare','Compare')->name('compare');
        Route::post('/remove-compare-product/{id}','RemoveCompareProduct');
    });
+    Route::controller(CartController::class)->group(function (){
+        Route::get('/mycart','MyCart')->name('mycart');
+    });
+    Route::controller(CartController::class)->group(function (){
+        Route::post('/cart/data/qtyDecrement/{id}','qtyDecrement');
+    });
+    Route::controller(CartController::class)->group(function (){
+        Route::post('/cart/data/qtyIncrement/{id}','qtyIncrement');
+    });
 });
 
 //Frontend Product Details All Routes

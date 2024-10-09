@@ -259,6 +259,7 @@
                 url: "/cart/data/miniCartRemove/"+$id,
                 success: function (data){
                     miniCart();
+                    myCart();
                     const Toast = Swal.mixin({
                         toast: true,
                         position: 'top-end',
@@ -332,7 +333,7 @@
                         </td>
                         <td class="image product-thumbnail pt-40"><img src="/${value.product.product_thambnail}" alt="#" /></td>
                         <td class="product-des product-name">
-                            <h6><a class="product-name mb-10" href="shop-product-right.html">${value.product.product_name} </a></h6>
+                            <h6><a class="product-name mb-10" href="/product/details/${value.product.id}/${value.product.product_slug}">${value.product.product_name} </a></h6>
                             <div class="product-rate-cover">
                                 <div class="product-rate d-inline-block">
                                     <div class="product-rating" style="width: 90%"></div>
@@ -455,9 +456,8 @@
                 var remove = `<tr class="pr_remove text-muted"><td class="text-muted font-md fw-600"></td>`
                 $.each(response.compare, function(key,value){
                     img+=`<td class="row_img"><img src="/${value.product.product_thambnail}" alt="compare-img" style="width: 300px;width: 300px" /></td>`
-                    name+=`<td class="product_name">
-                                <h6><a href="shop-product-full.html" class="text-heading">${value.product.product_name}</a></h6>
-                        </td>`
+                    name += `<td class="product_name"><h6><a href="/product/details/${value.product.id}/${value.product.product_slug}" class="text-heading">${value.product.product_name}</a></h6></td>`;
+
                     price+=`<td class="product_price">
                             ${value.product.discount_price == null
                         ? `<h3 class="text-brand">$${value.product.selling_price}</h3>`
@@ -525,6 +525,89 @@
             }
 
         })
+    }
+    function myCart(){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/cart/data/miniCart",
+            success:function (response){
+
+                var rows = "";
+                $.each(response.carts,function (key,value){
+                    rows += `
+                    <tr class="pt-30">
+                            <td class="custome-checkbox pl-30">
+
+                            </td>
+                            <td class="image product-thumbnail pt-40"><img src="${value.options.image}" alt="#"></td>
+                            <td class="product-des product-name">
+                                <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="shop-product-right.html">${value.name}</a></h6>
+
+                            </td>
+                            <td class="price" data-title="Price">
+                                <h4 class="text-body">$${value.price} </h4>
+                            </td>
+
+                            <td class="price" data-title="Price">
+                                ${value.options.color == null
+                        ? `<span>.... </span>`
+                        : `<h6 class="text-body">${value.options.color} </h6>`
+                    }
+                            </td>
+
+                            <td class="price" data-title="Price">
+                                ${value.options.size == null
+                        ? `<span>.... </span>`
+                        : `<h6 class="text-body">${value.options.size} </h6>`
+                    }
+                            </td>
+                            <td class="text-center detail-info" data-title="Stock">
+                                <div class="detail-extralink mr-15">
+                                    <div class="detail-qty border radius">
+                                        <a onclick="cartDecrement(this.id)" id="${value.rowId}" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                        <input type="text" name="quantity" class="qty-val" value="${value.qty}" min="1">
+                                        <a onclick="cartIncrement(this.id)" id="${value.rowId}"class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="price" data-title="Price">
+                                <h4 class="text-brand">$${value.subtotal}</h4>
+                            </td>
+                            <td class="action text-center" data-title="Remove"><a onclick="miniCartRemove(this.id)" id="${value.rowId}" class="text-body"><i class="fi-rs-trash"></i></a></td>
+                        </tr>
+                    `
+                })
+                $('#cart').html(rows);
+            }
+        })
+    }
+    myCart();
+    function cartDecrement(id){
+        $.ajax(
+            {
+                type:"POST",
+                dataType: "json",
+                url: "/cart/data/qtyDecrement/"+id,
+                success:function (response){
+                    myCart();
+                    miniCart();
+                }
+            }
+        )
+    }
+    function cartIncrement(id){
+        $.ajax(
+            {
+                type:"POST",
+                dataType: "json",
+                url: "/cart/data/qtyIncrement/"+id,
+                success:function (response){
+                    myCart();
+                    miniCart();
+                }
+            }
+        )
     }
 
 </script>
