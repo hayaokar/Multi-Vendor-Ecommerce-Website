@@ -15,7 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\backend\BrandController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectIfAuthenticated;
