@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\VendorProductController;
@@ -161,6 +162,35 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/edit/coupon/','UpdateCoupon')->name('update.coupon');
         Route::get('/delete/coupon/{id}','DeleteCoupon')->name('delete.coupon');
     });
+
+    Route::controller(ShippingAreaController::class)->group(function (){
+        Route::get('/all/divisions','AllDivisions')->name('all.divisions');
+        Route::get('/ajax/all/divisions','GetAllDivisions');
+        Route::get('/view/division/{id}','ViewDivision');
+        Route::post('/add/divisions','AddDivisions')->name('store.division');
+        Route::post('/update/divisions/{id}','UpdateDivisions');
+        Route::get('/delete/division/{id}','DeleteDivision')->name('delete.division');
+    });
+    Route::controller(ShippingAreaController::class)->group(function (){
+        Route::get('/ajax/all/districts','GetAllDistricts');
+        Route::get('/all/districts','AllDistricts')->name('all.districts');
+        Route::get('/view/district/{id}','ViewDistrict');
+        Route::post('/add/district','AddDistrict')->name('store.district');
+        Route::post('/update/district/{id}','UpdateDistrict');
+        Route::get('/delete/district/{id}','DeleteDistrict')->name('delete.district');
+    });
+    Route::controller(ShippingAreaController::class)->group(function (){
+        Route::get('/all/state','AllState')->name('all.states');
+        Route::get('/add/state','AddState')->name('add.state');
+        Route::get('/district/ajax/{division_id}' , 'GetDistrict');
+        Route::post('/add/state','StoreState')->name('store.state');
+
+        Route::get('/edit/state/{id}','EditState')->name('edit.state');
+        Route::post('/update/state' , 'UpdateState')->name('update.state');
+        Route::get('/delete/state/{id}','DeleteState')->name('delete.state');
+
+    });
+
 });
 
 Route::middleware('guest')->group(function () {

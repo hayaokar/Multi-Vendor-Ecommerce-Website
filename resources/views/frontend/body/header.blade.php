@@ -139,12 +139,13 @@
 
 
                             <div class="header-action-icon-2">
+                                @auth
                                 <a href="page-account.html">
                                     <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-user.svg') }}" />
                                 </a>
 
 
-                                @auth
+
                                     <a href="page-account.html"><span class="lable ml-0">Account</span></a>
                                     <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                         <ul>

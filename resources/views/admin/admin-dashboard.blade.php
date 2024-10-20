@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{csrf_token()}}"/>
     <!--favicon-->
     <link rel="icon" href="{{asset('adminbackend/assets/images/favicon-32x32.png')}}" type="image/png" />
     <!--plugins-->
@@ -85,7 +86,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{asset('adminbackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('adminbackend/assets/plugins/datatable/js/dataTables.bootstrap5.min.js')}}"></script>
-<
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
 
@@ -124,6 +125,258 @@
     tinymce.init({
         selector: '#mytextarea'
     });
+</script>
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+        }
+    })
+    $(document).ready(function (){
+        $('#myForm').validate({
+            rules: {
+                division_name: {
+                    required : true,
+                },
+            },
+            messages :{
+                division_name: {
+                    required : 'Please Enter Division Name',
+                },
+            },
+            errorElement : 'span',
+            errorPlacement: function (error,element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight : function(element, errorClass, validClass){
+                $(element).addClass('is-invalid');
+            },
+            unhighlight : function(element, errorClass, validClass){
+                $(element).removeClass('is-invalid');
+            },
+        });
+    });
+    function allDivisions(){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/ajax/all/divisions",
+            success: function (data){
+                var rows = "";
+                var count = 1;
+                $.each(data.divisions,function (key,value){
+                    rows += `<tr>
+                                <td> ${count} </td>
+                                <td>${value.division_name}</td>
+                                <td>
+                                    <a id="${value.id}" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#updateDivisionsModal" class="btn btn-info" onclick="viewDivision(this.id)">Edit</a>
+                                    <a href="/delete/division/${value.id}" class="btn btn-danger" id="delete" >Delete</a>
+
+                                </td>
+                            </tr>`
+                    count +=1;
+                })
+                $('#divisions').html(rows);
+            }
+
+        })
+    }
+    function allDistricts(){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/ajax/all/districts",
+            success: function (data){
+                var rows = "";
+                var count = 1;
+                $.each(data.districts,function (key,value){
+                    rows += `<tr>
+                                <td> ${count} </td>
+                                <td>${value.district_name}</td>
+                                <td>${value.division.division_name}</td>
+                                <td>
+                                    <a id="${value.id}" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#updateDistrictModal" class="btn btn-info" onclick="viewDistrict(this.id)">Edit</a>
+                                    <a href="/delete/district/${value.id}" class="btn btn-danger" id="delete" >Delete</a>
+
+                                </td>
+                            </tr>`
+                    count +=1;
+                })
+                $('#districts').html(rows);
+            }
+
+        })
+    }
+    function addDivision(){
+        var product_name = $('#division_name').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data:{
+                division_name:product_name
+            },
+            url:'/add/divisions',
+            success:function (data){
+                $('#closeModal').click();
+                allDivisions()
+                //console.log(data)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'success',
+                        title: data.error,
+                    })
+                }
+            }
+        })
+    }
+    function addDistrict(){
+        var division_id = $('#division_id option:selected').val();
+        var district_name = $('#district_name').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data:{
+                division_id:division_id,
+                district_name:district_name
+            },
+            url:'/add/district',
+            success:function (data){
+                $('#closeModal').click();
+                allDistricts()
+                //console.log(data)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'success',
+                        title: data.error,
+                    })
+                }
+            }
+        })
+    }
+    function viewDivision(id){
+        $.ajax({
+            type: "GET",
+            url: "/view/division/"+id,
+            dataType: "json",
+            success: function (data){
+                $('#u_division_name').val(data.division.division_name)
+                $('#id_division').val(data.division.id)
+            }
+        })
+    }
+    function viewDistrict(id){
+        $.ajax({
+            type: "GET",
+            url: "/view/district/"+id,
+            dataType: "json",
+            success: function (data){
+                $('#u_district_name').val(data.district.district_name)
+                $('#id_district').val(data.district.id)
+                $('#u_division_id').val(data.district.division.id).trigger('change');
+            }
+        })
+    }
+    function updateDivision(){
+        var id = $('#id_division').val();
+        var product_name = $('#u_division_name').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data:{
+                division_name:product_name
+            },
+            url:'/update/divisions/'+id,
+            success:function (data){
+                $('#ucloseModal').click();
+                allDivisions()
+                //console.log(data)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'success',
+                        title: data.error,
+                    })
+                }
+            }
+        })
+    }
+    function updateDistrict(){
+        var id = $('#id_district').val();
+        var district_name = $('#u_district_name').val();
+        var division_id = $('#u_division_id').val();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data:{
+                district_name:district_name,
+                division_id: division_id
+            },
+            url:'/update/district/'+id,
+            success:function (data){
+                $('#ucloseModal').click();
+                allDistricts()
+                //console.log(data)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'success',
+                        title: data.error,
+                    })
+                }
+            }
+        })
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
