@@ -590,6 +590,7 @@
                 dataType: "json",
                 url: "/cart/data/qtyDecrement/"+id,
                 success:function (response){
+                    totalCalculation()
                     myCart();
                     miniCart();
                 }
@@ -603,6 +604,7 @@
                 dataType: "json",
                 url: "/cart/data/qtyIncrement/"+id,
                 success:function (response){
+                    totalCalculation()
                     myCart();
                     miniCart();
                 }
@@ -610,6 +612,138 @@
         )
     }
 
+    function applyCoupon(){
+        var coupon_name = $('#coupon').val()
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: {coupon_name: coupon_name},
+            url: '/applyCoupon',
+            success: function (data){
+                if (data.validity == true) {
+                    $('#couponField').hide();
+                    totalCalculation();
+                }
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error,
+                        showCancelButton: true
+                    })
+                }
+            }
+        })
+    }
+    function totalCalculation(){
+        $.ajax({
+            type:"GET",
+            dataType: "json",
+            url: "/total-calculation",
+            success: function (data){
+                if(data.total){
+                    $('#couponCalField').html(`<tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Subtotal</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">${data.total}$</h4>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Grand Total</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h4 class="text-brand text-end">${data.total}$</h4>
+                                        </td>
+                                    </tr>`)
+                }else{
+                    $('#couponCalField').html(`<tr>
+                    <td class="cart_total_label">
+                        <h6 class="text-muted">Subtotal</h6>
+                    </td>
+                    <td class="cart_total_amount">
+                        <h4 class="text-brand text-end">$${data.subtotal}</h4>
+                    </td>
+                </tr>
+
+                <tr>
+                    <tr>
+                                        <td class="cart_total_label">
+                                            <h6 class="text-muted">Coupon</h6>
+                                        </td>
+                                        <td class="cart_total_amount">
+                                            <h6 class="text-brand text-end">${data.coupon_name} <a onclick="removeCoupon()"><i class="fi-rs-trash"></i> </a> </h6>
+                                        </td>
+                                    </tr>
+                                        <tr>
+                    <td class="cart_total_label">
+                        <h6 class="text-muted">Discount Amount  </h6>
+                    </td>
+                    <td class="cart_total_amount">
+    <h4 class="text-brand text-end">$${data.discount_amount}</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="cart_total_label">
+                        <h6 class="text-muted">Grand Total </h6>
+                    </td>
+                    <td class="cart_total_amount">
+          <h4 class="text-brand text-end">$${data.total_amount}</h4>
+                    </td>
+                </tr> `)
+                }
+            }
+        })
+    }
+    totalCalculation()
+    function removeCoupon(){
+        $.ajax({
+            url:'/remove-coupon',
+            dataType:'json',
+            type:'GET',
+            success: function (data){
+                totalCalculation();
+                $('#couponField').show();
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    showCloseButton: true,
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type: 'success',
+                        icon: 'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        icon: 'error',
+                        title: data.error,
+                        showCancelButton: true
+                    })
+                }
+            }
+        })
+    }
 </script>
 
 

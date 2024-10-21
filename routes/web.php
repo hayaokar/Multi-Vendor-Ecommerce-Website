@@ -209,13 +209,13 @@ Route::middleware(['auth','role:user'])->group(function (){
    });
     Route::controller(CartController::class)->group(function (){
         Route::get('/mycart','MyCart')->name('mycart');
-    });
-    Route::controller(CartController::class)->group(function (){
         Route::post('/cart/data/qtyDecrement/{id}','qtyDecrement');
-    });
-    Route::controller(CartController::class)->group(function (){
         Route::post('/cart/data/qtyIncrement/{id}','qtyIncrement');
+        Route::post('/applyCoupon','ApplyCoupon');
+        Route::get('/total-calculation','totalCalculation');
+        Route::get('/remove-coupon','removeCoupon');
     });
+
 });
 
 //Frontend Product Details All Routes

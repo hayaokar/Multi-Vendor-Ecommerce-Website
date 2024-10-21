@@ -113,6 +113,7 @@
                                 </a>
                                 <a href="{{route('all.wishlist')}}"><span class="lable">Wishlist</span></a>
                             </div>
+                            @endauth
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="shop-cart.html">
                                     <img alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-cart.svg') }}" />
@@ -132,7 +133,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @endauth
+
 
 
 
