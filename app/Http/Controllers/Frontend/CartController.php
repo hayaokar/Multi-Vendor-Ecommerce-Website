@@ -5,10 +5,12 @@ namespace App\Http\Controllers\frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
 use App\Models\Product;
+use App\Models\ShipDivision;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
@@ -71,14 +73,36 @@ class CartController extends Controller
     public function qtyDecrement($id){
         $row = Cart::get($id);
         Cart::update($id,$row->qty-1);
+        if(Session::has('coupon')){
+            $coupon_name = Session::get('coupon')['coupon_name'];
+            $coupon = Coupon::where('coupon_name',$coupon_name)->first();
+
+            Session::put('coupon',[
+                'coupon_name' => $coupon->coupon_name,
+                'coupon_discount' => $coupon->coupon_discount,
+                'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100,2),
+                'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100 ,2)
+            ]);
+        }
         return response()->json('Decrement');
 
     }
     public function qtyIncrement($id){
         $row = Cart::get($id);
         Cart::update($id,$row->qty+1);
-        return response()->json('Increment');
+        if(Session::has('coupon')){
+            $coupon_name = Session::get('coupon')['coupon_name'];
+            $coupon = Coupon::where('coupon_name',$coupon_name)->first();
 
+            Session::put('coupon',[
+                'coupon_name' => $coupon->coupon_name,
+                'coupon_discount' => $coupon->coupon_discount,
+                'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100,2),
+                'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100,2 )
+            ]);
+            return response()->json('Increment');
+
+        }
     }
     public function ApplyCoupon(Request $request){
         $coupon = Coupon::where('coupon_name',$request->coupon_name)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->first();
@@ -96,13 +120,13 @@ class CartController extends Controller
     }
     public function totalCalculation(){
         if(Session::has('coupon')){
-            $discount = session()->get('coupon')['coupon_discount'];
+
             return response()->json(array(
                 'subtotal' => Cart::total(),
                 'coupon_name' => session()->get('coupon')['coupon_name'],
-                'coupon_discount' => $discount,
-                'discount_amount' => round(Cart::total() * $discount/100,2),
-                'total_amount' =>  round(Cart::total() - Cart::total() * $discount/100,2 )
+                'coupon_discount' => session()->get('coupon')['coupon_discount'],
+                'discount_amount' => session()->get('coupon')['discount_amount'],
+                'total_amount' => session()->get('coupon')['total_amount'],
             ));
         }else{
             return response()->json(array(
@@ -114,6 +138,31 @@ class CartController extends Controller
         if(Session::has('coupon')){
             Session::remove('coupon');
             return response()->json(['success'=>'Coupon Removed Successfully']);
+        }
+    }
+    public function checkoutCreate(){
+        if(Auth::check()){
+            if(Cart::total() > 0){
+                $carts        = Cart::content();
+                $cartQty     = Cart::count();
+                $cartTotal   = Cart::total();
+                $divisions = ShipDivision::orderBy('division_name','ASC')->get();
+                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal','divisions'));
+            }else{
+                $notification = array(
+                    'message' => 'You Need To Add At Least One Item!',
+                    'alert-type' => 'error'
+                );
+
+                return redirect()->to('/')->with($notification);
+            }
+        }else{
+            $notification = array(
+                'message' => 'You Need to Login First',
+                'alert-type' => 'error'
+            );
+
+            return redirect()->route('login')->with($notification);
         }
     }
 }

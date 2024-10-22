@@ -13,6 +13,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
@@ -207,15 +208,23 @@ Route::middleware(['auth','role:user'])->group(function (){
        Route::get('/compare','Compare')->name('compare');
        Route::post('/remove-compare-product/{id}','RemoveCompareProduct');
    });
-    Route::controller(CartController::class)->group(function (){
-        Route::get('/mycart','MyCart')->name('mycart');
-        Route::post('/cart/data/qtyDecrement/{id}','qtyDecrement');
-        Route::post('/cart/data/qtyIncrement/{id}','qtyIncrement');
-        Route::post('/applyCoupon','ApplyCoupon');
-        Route::get('/total-calculation','totalCalculation');
-        Route::get('/remove-coupon','removeCoupon');
-    });
 
+    Route::controller(CheckoutController::class)->group(function(){
+        Route::get('/district-get/ajax/{division_id}' , 'DistrictGetAjax');
+        Route::get('/state-get/ajax/{district_id}' , 'StateGetAjax');
+        Route::post('/checkout/store' , 'CheckoutStore')->name('checkout.store');
+
+    });
+});
+
+Route::controller(CartController::class)->group(function (){
+    Route::get('/mycart','MyCart')->name('mycart');
+    Route::post('/cart/data/qtyDecrement/{id}','qtyDecrement');
+    Route::post('/cart/data/qtyIncrement/{id}','qtyIncrement');
+    Route::post('/applyCoupon','ApplyCoupon');
+    Route::get('/total-calculation','totalCalculation');
+    Route::get('/remove-coupon','removeCoupon');
+    Route::get('/checkout','checkoutCreate')->name('checkout');
 });
 
 //Frontend Product Details All Routes
