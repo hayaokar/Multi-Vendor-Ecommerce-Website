@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\user\StripeController;
 use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
@@ -226,7 +227,10 @@ Route::controller(CartController::class)->group(function (){
     Route::get('/remove-coupon','removeCoupon');
     Route::get('/checkout','checkoutCreate')->name('checkout');
 });
-
+Route::controller(StripeController::class)->group(function(){
+    Route::post('/stripe/order' , 'StripeOrder')->name('stripe.order');
+    Route::post('/cash/order' , 'CashOrder')->name('cash.order');
+});
 //Frontend Product Details All Routes
 Route::get('/product/details/{id}/{slug}',[IndexController::class,'ProductDetails']);
 Route::get('/vendor/details/{id}',[IndexController::class,'vendorDetails'])->name('vendor.details');

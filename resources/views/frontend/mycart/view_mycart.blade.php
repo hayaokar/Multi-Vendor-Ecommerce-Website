@@ -34,7 +34,7 @@
                             <th scope="col">Size</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Subtotal</th>
-                            <th scope="col" class="end">Remove</th>
+                            <th scope="col" class="end"></th>
                         </tr>
                         </thead>
                         <tbody id="cart">

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/plugins/animate.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css?v=5.3') }}" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -115,6 +116,7 @@
                $('#pname').text(data.product.product_name);
                $('#pprice').text(data.product.selling_price);
                $('#pcode').text(data.product.product_code);
+               $('#pvendor_id').text(data.vendor);
                $('#pcategory').text(data.product.category.category_name);
                $('#pbrand').text(data.product.brand.brand_name);
                $('#pimage').attr('src','/'+data.product.product_thambnail);
@@ -165,11 +167,12 @@
         var color = $('#color option:selected').text();
         var size = $('#size option:selected').text();
         var quantity = $('#qty').val();
+        var vendor = $('#pvendor_id').text();
         $.ajax({
             type: "POST",
             dataType: "json",
             data:{
-                color:color, size:size,quantity:quantity,product_name:product_name
+                color:color, size:size,quantity:quantity,product_name:product_name,vendor:vendor
             },
             url: "/cart/data/store/"+id,
             success:function (data){
@@ -205,11 +208,12 @@
         var color = $('#dcolor option:selected').text();
         var size = $('#dsize option:selected').text();
         var quantity = $('#dqty').val();
+        var vendor = $('#vendor_id').val();
         $.ajax({
             type: "POST",
             dataType: "json",
             data:{
-                color:color, size:size,quantity:quantity,product_name:product_name
+                color:color, size:size,quantity:quantity,product_name:product_name,vendor:vendor
             },
             url: "/cart/data/store/"+id,
             success:function (data){
@@ -273,38 +277,7 @@
     }
     miniCart();
 
-    function miniCartRemove($id){
-        $.ajax(
-            {
-                type: "POST",
-                dataType: "json",
-                url: "/cart/data/miniCartRemove/"+$id,
-                success: function (data){
-                    miniCart();
-                    myCart();
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        showCloseButton: true,
-                    })
-                    if($.isEmptyObject(data.error)){
-                        Toast.fire({
-                            type: 'success',
-                            title: data.success,
-                        })
-                    }else{
-                        Toast.fire({
-                            type: 'success',
-                            title: data.error,
-                        })
-                    }
-                }
-            }
-        )
-    }
+
     function addToWishlist(id){
         $.ajax(
             {
@@ -629,6 +602,41 @@
                     totalCalculation()
                     myCart();
                     miniCart();
+                }
+            }
+        )
+    }
+    function miniCartRemove($id){
+        $.ajax(
+            {
+                type: "POST",
+                dataType: "json",
+                url: "/cart/data/miniCartRemove/"+$id,
+                success: function (data){
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        showCloseButton: true,
+                    })
+                    if($.isEmptyObject(data.error)){
+                        Toast.fire({
+                            type: 'success',
+                            title: data.success,
+
+                        })
+                        totalCalculation();
+                        miniCart();
+                        myCart();
+                    }else{
+                        Toast.fire({
+                            type: 'success',
+                            title: data.error,
+                        })
+                    }
                 }
             }
         )

@@ -66,10 +66,12 @@ class IndexController extends Controller
         $product = Product::with('category','brand')->findorfail($id);
         $product_color = explode(',',$product->product_color);
         $product_size = explode(',',$product->product_size);
+        $vendor_id = $product->vendor_id;
         return response()->json(array(
             'product' => $product,
             'color'   => $product_color,
             'size'    => $product_size,
+            'vendor' => $vendor_id
         ));
     }
 }

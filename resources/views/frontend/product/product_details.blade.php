@@ -116,6 +116,7 @@
                                     </div>
                                     <div class="product-extra-link2">
                                         <input type="hidden" value="{{$product->id}}" id="dproduct_id">
+                                        <input type="hidden" id="vendor_id" value="{{$product->vendor_id}}">
                                         <button type="submit" class="button button-add-to-cart" onclick="addToCartDetailed()"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
                                         <a aria-label="Add To Wishlist" id="{{$product->id}}" onclick="addToWishlist(this.id)" class="action-btn"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" id="{{$product->id}}" onclick="addToCompare(this.id)"><i class="fi-rs-shuffle"></i></a>

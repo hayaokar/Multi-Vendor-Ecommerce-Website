@@ -28,9 +28,21 @@ class CartController extends Controller
                 'options' =>[
                     'image' => $product->product_thambnail,
                     'color' => $request->color,
-                    'size'  => $request->size
+                    'size'  => $request->size,
+                    'vendor' => $request->vendor
                 ]
             ]);
+            if(Session::has('coupon')){
+                $coupon_name = Session::get('coupon')['coupon_name'];
+                $coupon = Coupon::where('coupon_name',$coupon_name)->first();
+
+                Session::put('coupon',[
+                    'coupon_name' => $coupon->coupon_name,
+                    'coupon_discount' => $coupon->coupon_discount,
+                    'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100,2),
+                    'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100 ,2)
+                ]);
+            }
             return response()->json(['success' => 'Successfully Added on Your Cart']);
         }else{
             Cart::add([
@@ -42,9 +54,21 @@ class CartController extends Controller
                 'options' =>[
                     'image' => $product->product_thambnail,
                     'color' => $request->color,
-                    'size'  => $request->size
+                    'size'  => $request->size,
+                    'vendor' => $request->vendor
                 ]
             ]);
+            if(Session::has('coupon')){
+                $coupon_name = Session::get('coupon')['coupon_name'];
+                $coupon = Coupon::where('coupon_name',$coupon_name)->first();
+
+                Session::put('coupon',[
+                    'coupon_name' => $coupon->coupon_name,
+                    'coupon_discount' => $coupon->coupon_discount,
+                    'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100,2),
+                    'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100 ,2)
+                ]);
+            }
             return response()->json(['success' => 'Successfully Added on Your Cart']);
         }
 
@@ -65,6 +89,17 @@ class CartController extends Controller
 
     public function miniCartRemove($id){
         Cart::remove($id);
+        if(Session::has('coupon')){
+            $coupon_name = Session::get('coupon')['coupon_name'];
+            $coupon = Coupon::where('coupon_name',$coupon_name)->first();
+
+            Session::put('coupon',[
+                'coupon_name' => $coupon->coupon_name,
+                'coupon_discount' => $coupon->coupon_discount,
+                'discount_amount' => round(Cart::total() * $coupon->coupon_discount/100,2),
+                'total_amount' => round(Cart::total() - Cart::total() * $coupon->coupon_discount/100 ,2)
+            ]);
+        }
         return response()->json(['success' => 'Successfully Removed From Your Cart']);
     }
     public function MyCart(){
