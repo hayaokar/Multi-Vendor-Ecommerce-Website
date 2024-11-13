@@ -14,7 +14,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CheckoutController;
-use App\Http\Controllers\user\StripeController;
+use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
