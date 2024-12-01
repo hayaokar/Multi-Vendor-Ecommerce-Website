@@ -11,6 +11,7 @@ use App\Http\Controllers\CompareController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CheckoutController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\VendorOrderController;
 use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -65,6 +67,10 @@ Route::middleware(['auth','role:vendor'])->group(function (){
         Route::get('/vendor/product/active/{id}','VendorProductActive')->name('vendor.product.active');
         Route::get('/vendor/delete/product/{id}','VendorDeleteProduct')->name('vendor.delete.product');
     });
+    Route::controller(VendorOrderController::class)->group(function (){
+        Route::get('/vendor/orders','VendorOrders')->name('vendor.orders');
+    });
+
 });
 
 Route::middleware(['auth'])->group(function (){
@@ -190,7 +196,10 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/edit/state/{id}','EditState')->name('edit.state');
         Route::post('/update/state' , 'UpdateState')->name('update.state');
         Route::get('/delete/state/{id}','DeleteState')->name('delete.state');
+    });
+    Route::controller(OrderController::class)->group(function (){
 
+        Route::get('/pending/orders','PendingOrders')->name('pending.orders');
     });
 
 });
