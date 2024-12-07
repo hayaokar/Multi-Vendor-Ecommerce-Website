@@ -78,9 +78,15 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/user/store/profile/',[UserController::class,'UserProfileStore'])->name('user.profile.store');
     Route::get('/user/logout/',[UserController::class,'UserLogout'])->name('user.logout');
     Route::post('/user/change/password/',[UserController::class,'UserChangePassword'])->name('user.change.password');
+    Route::get('/user/change/password/view',[UserController::class,'UserChangePasswordView'])->name('user.password');
+    Route::get('/user/account/details',[UserController::class,'UserAccountDetails'])->name('user.account.details');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/user/orders/',[UserController::class,'UserOrders'])->name('user.orders');
+    Route::get('/view/order/{order}',[UserController::class,'ViewOrder'])->name('view.order');
+    Route::get('/invoice/order/{order}',[UserController::class,'InvoiceOrder'])->name('invoice.order');
+
 });
 
 
@@ -220,8 +226,7 @@ Route::middleware(['auth','role:user'])->group(function (){
    });
 
     Route::controller(CheckoutController::class)->group(function(){
-        Route::get('/district-get/ajax/{division_id}' , 'DistrictGetAjax');
-        Route::get('/state-get/ajax/{district_id}' , 'StateGetAjax');
+        Route::get('/city-get/ajax/{country_id}' , 'CityGetAjax');
         Route::post('/checkout/store' , 'CheckoutStore')->name('checkout.store');
 
     });

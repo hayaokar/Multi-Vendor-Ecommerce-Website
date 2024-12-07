@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\city;
+use App\Models\region;
 use App\Models\ShipDistricts;
 use App\Models\ShipState;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -11,19 +13,14 @@ use Illuminate\Http\Request;
 class CheckoutController extends Controller
 {
     //
-    public function DistrictGetAjax($division_id){
+    public function CityGetAjax($country_id){
 
-        $ship = ShipDistricts::where('division_id',$division_id)->orderBy('district_name','ASC')->get();
-        return json_encode($ship);
+        $city = region::where('country_id',$country_id)->orderBy('name','ASC')->get();
+        return json_encode($city);
 
     } // End Method
 
-    public function StateGetAjax($district_id){
 
-        $ship = ShipState::where('district_id',$district_id)->orderBy('state_name','ASC')->get();
-        return json_encode($ship);
-
-    }// End Method
 
     public function CheckoutStore(Request $request){
 
@@ -33,9 +30,8 @@ class CheckoutController extends Controller
         $data['shipping_phone'] = $request->shipping_phone;
         $data['post_code'] = $request->post_code;
 
-        $data['division_id'] = $request->division_id;
-        $data['district_id'] = $request->district_id;
-        $data['state_id'] = $request->state_id;
+        $data['country_id'] = $request->country_id;
+        $data['city_id'] = $request->city_id;
         $data['shipping_address'] = $request->shipping_address;
         $data['notes'] = $request->notes;
         $cartTotal = Cart::total();

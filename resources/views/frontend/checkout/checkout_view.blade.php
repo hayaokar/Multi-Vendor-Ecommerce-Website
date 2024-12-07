@@ -42,10 +42,10 @@
                         <div class="row shipping_calculator">
                             <div class="form-group col-lg-6">
                                 <div class="custom_select">
-                                    <select name="division_id" class="form-control">
-                                        <option value="">Select Division...</option>
-                                        @foreach($divisions as $item)
-                                            <option value="{{ $item->id }}">{{ $item->division_name }}</option>
+                                    <select name="country_id" class="form-control">
+                                        <option value="">Select Country...</option>
+                                        @foreach($countries as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
 
                                     </select>
@@ -59,7 +59,8 @@
                         <div class="row shipping_calculator">
                             <div class="form-group col-lg-6">
                                 <div class="custom_select">
-                                    <select name="district_id" class="form-control">
+                                    <select name="city_id" class="form-control">
+                                        <option value="">Select City...</option>
 
 
 
@@ -74,14 +75,7 @@
 
 
                         <div class="row shipping_calculator">
-                            <div class="form-group col-lg-6">
-                                <div class="custom_select">
-                                    <select name="state_id" class="form-control">
 
-
-                                    </select>
-                                </div>
-                            </div>
                             <div class="form-group col-lg-6">
                                 <input required="" type="text" name="shipping_address" placeholder="Address *" value="{{ Auth::user()->address }}">
                             </div>
@@ -248,18 +242,19 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            $('select[name="division_id"]').on('change', function(){
-                var division_id = $(this).val();
-                if (division_id) {
+            $('select[name="country_id"]').on('change', function(){
+                var country_id = $(this).val();
+                if (country_id) {
                     $.ajax({
-                        url: "{{ url('/district-get/ajax') }}/"+division_id,
+                        url: "{{ url('/city-get/ajax') }}/"+country_id,
                         type: "GET",
                         dataType:"json",
                         success:function(data){
-                            $('select[name="district_id"]').html('');
-                            var d =$('select[name="district_id"]').empty();
+                            $('select[name="city_id"]').html('');
+                            var d =$('select[name="city_id"]').empty();
+                            $('select[name="city_id"]').append('<option value="">Select City</option>')
                             $.each(data, function(key, value){
-                                $('select[name="district_id"]').append('<option value="'+ value.id + '">' + value.district_name + '</option>');
+                                $('select[name="city_id"]').append('<option value="'+ value.id + '">' + value.name + '</option>');
                             });
                         },
 
@@ -271,29 +266,6 @@
         });
 
 
-        // Show State Data
-        $(document).ready(function(){
-            $('select[name="district_id"]').on('change', function(){
-                var district_id = $(this).val();
-                if (district_id) {
-                    $.ajax({
-                        url: "{{ url('/state-get/ajax') }}/"+district_id,
-                        type: "GET",
-                        dataType:"json",
-                        success:function(data){
-                            $('select[name="state_id"]').html('');
-                            var d =$('select[name="state_id"]').empty();
-                            $.each(data, function(key, value){
-                                $('select[name="state_id"]').append('<option value="'+ value.id + '">' + value.state_name + '</option>');
-                            });
-                        },
-
-                    });
-                } else {
-                    alert('danger');
-                }
-            });
-        });
 
     </script>
 

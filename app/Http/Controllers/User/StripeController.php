@@ -40,9 +40,8 @@ class StripeController extends Controller
 
         $order_id = Order::insertGetId([
             'user_id' => Auth::id(),
-            'division_id' => '1',
-            'district_id' => '1',
-            'state_id' => '1',
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -94,7 +93,7 @@ class StripeController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('/dashboard')->with($notification);
+        return redirect()->route('user.dashboard')->with($notification);
 
 
 
@@ -111,9 +110,8 @@ class StripeController extends Controller
 
         $order_id = Order::insertGetId([
             'user_id' => Auth::id(),
-            'division_id' => '1',
-            'district_id' => '1',
-            'state_id' => '1',
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,

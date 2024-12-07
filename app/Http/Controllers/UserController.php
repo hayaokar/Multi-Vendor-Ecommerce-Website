@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -58,6 +61,13 @@ class UserController extends Controller
 
         return redirect('/login')->with($notification);
     }
+    public function UserChangePasswordView(){
+        return view('frontend.userdashboard.user_change_password');
+    }
+    public function UserAccountDetails(){
+        $user = Auth::user();
+        return view('frontend.userdashboard.user_account_details',compact('user'));
+    }
 
     public function UserChangePassword(Request $request){
 
@@ -77,6 +87,25 @@ class UserController extends Controller
         );
 
         return back()->with("status", " Password Changed Successfully");
+
+    }
+    public function UserOrders(){
+        $orders = Order::where('user_id',Auth::user()->id)->get();
+        return view('frontend.userdashboard.user_order_page',compact('orders'));
+    }
+    public function ViewOrder(Order $order){
+        $order_items = $order->orderItems()->with('product')->get();
+        return view('frontend.order.order_details', compact('order','order_items'));
+    }
+
+    public function InvoiceOrder(Order $order){
+        $order_items = $order->orderItems()->with('product')->get();
+        $pdf = Pdf::loadView('frontend.order.order_invoice', compact('order','order_items'))->setPaper('a4')->setOption([
+            'tempDir' => public_path(),
+            'chroot' => public_path(),
+            'isRemoteEnabled' => true
+        ]);
+        return $pdf->download('invoice.pdf');
 
     }
 

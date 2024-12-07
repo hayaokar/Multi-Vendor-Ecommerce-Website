@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\country;
 use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ShipDivision;
@@ -181,8 +182,8 @@ class CartController extends Controller
                 $carts        = Cart::content();
                 $cartQty     = Cart::count();
                 $cartTotal   = Cart::total();
-                $divisions = ShipDivision::orderBy('division_name','ASC')->get();
-                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal','divisions'));
+                $countries = country::orderBy('name','ASC')->get();
+                return view('frontend.checkout.checkout_view',compact('carts','cartQty','cartTotal','countries'));
             }else{
                 $notification = array(
                     'message' => 'You Need To Add At Least One Item!',
