@@ -122,7 +122,7 @@
                         <tbody>
                         @foreach($orders as $order)
 
-                        @endforeach
+                        
                         <tr>
                             <td>#{{$order->id}}</td>
                             <td>
@@ -147,6 +147,7 @@
                                 </div>
                             </td>
                         </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>

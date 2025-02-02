@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Backend\ActiveUserController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SliderController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
+use App\Http\Controllers\Baxkend\ReportController;
 use App\Http\Controllers\VendorOrderController;
 use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
@@ -211,8 +213,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/order/process/{order}', 'OrderProcess')->name('admin.order.processed');
         Route::get('/admin/order/deliver/{order}', 'OrderDeliver')->name('admin.order.delivered');
     });
+    Route::controller(ReportController::class)->group(function(){
+        Route::get('/reports', 'ReportView')->name('report.view');
+        Route::get('/reports/search/date', 'SearchByDate')->name('search-by-date');
+        Route::get('/reports/search/month', 'SearchByMonth')->name('search-by-month');
+        Route::get('/reports/search/year', 'SearchByYear')->name('search-by-year');
+        Route::get('/reports/search/user', 'SearchByUser')->name('search-by-user');
+    });
+    Route::controller(ActiveUserController::class)->group(function (){
+        Route::get('/customers','allCustomers')->name('customers.view');
+        Route::get('/vendors','allVendors')->name('vendors.view');
+    });
 });
-
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);
     Route::get('/vendor/login', [VendorController::class, 'VendorLogin'])->name('login.vendor');

@@ -171,6 +171,37 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                </div>
+                <div class="menu-title">Order Reports</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('report.view')}}"><i class="bx bx-right-arrow-alt"></i>Order Reports</a>
+                </li>
+
+            </ul>
+
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                </div>
+                <div class="menu-title">User Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('customers.view')}}"><i class="bx bx-right-arrow-alt"></i>All Customers</a>
+                </li>
+
+            </ul>
+            <ul>
+                <li> <a href="{{route('vendors.view')}}"><i class="bx bx-right-arrow-alt"></i>All Vendors</a>
+                </li>
+
+            </ul>
+
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Application</div>
