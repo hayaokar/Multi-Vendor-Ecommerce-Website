@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\ActiveUserController;
+use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\BlogPostController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SliderController;
@@ -223,6 +225,22 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(ActiveUserController::class)->group(function (){
         Route::get('/customers','allCustomers')->name('customers.view');
         Route::get('/vendors','allVendors')->name('vendors.view');
+    });
+    Route::controller(BlogController::class)->group(function (){
+        Route::get('/admin/blog/category','allCategories')->name('admin.blog.category');
+        Route::get('/admin/blog/category/add','addCategories')->name('admin.blog.category.add');
+        Route::post('/admin/blog/category/store','storeCategory')->name('admin.blog.category.store');
+        Route::get('/admin/blog/category/edit/{category}','editCategory')->name('admin.blog.category.edit');
+        Route::post('/admin/blog/category/update/{id}','updateCategory')->name('admin.blog.category.update');
+        Route::get('/admin/blog/category/delete/{category}','deleteCategory')->name('admin.blog.category.delete');
+    });
+    Route::controller(BlogPostController::class)->group(function (){
+        Route::get('/admin/blog/post','allPosts')->name('admin.blog.post');
+        Route::get('/admin/blog/post/add','addPost')->name('admin.blog.post.add');
+        Route::post('/admin/blog/post/store','storePost')->name('admin.blog.post.store');
+        Route::get('/admin/blog/post/edit/{post}','editPost')->name('admin.blog.post.edit');
+        Route::post('/admin/blog/post/update','updatePost')->name('admin.blog.post.update');
+        Route::get('/admin/blog/post/delete/{post}','deletePost')->name('admin.blog.post.delete');
     });
 });
 Route::middleware('guest')->group(function () {
