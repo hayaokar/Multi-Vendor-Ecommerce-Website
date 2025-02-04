@@ -79,6 +79,11 @@ class BlogPostController extends Controller
             'alert-type' => 'success'
         ];
         return redirect()->back()->with($notification);
-
+    }
+    public function homeBlog()
+    {
+        $blogpost = BlogPost::latest()->get();
+        $blogcategoryies = BlogCategory::latest()->get();
+        return view('frontend.blog.blog_all', compact('blogpost', 'blogcategoryies'));
     }
 }

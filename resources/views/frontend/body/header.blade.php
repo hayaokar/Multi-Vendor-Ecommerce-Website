@@ -1,7 +1,7 @@
 <!-- Header  -->
 @php
 
-    $categories = App\Models\Category::orderBy('category_name','ASC')->get();
+$categories = App\Models\Category::orderBy('category_name','ASC')->get();
 @endphp
 <header class="header-area header-style-1 header-height-2">
     <div class="mobile-promotion">
@@ -70,7 +70,7 @@
                             <select class="select-active">
                                 <option>All Categories</option>
                                 @foreach($categories as $item)
-                                    <option>{{$item->category_name}}</option>
+                                <option>{{$item->category_name}}</option>
                                 @endforeach
                             </select>
                             <input type="text" placeholder="Search for items..." />
@@ -147,37 +147,37 @@
 
 
 
-                                    <a href="page-account.html"><span class="lable ml-0">Account</span></a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
-                                        <ul>
-                                            <li>
-                                                <a href="{{ route('dashboard') }}"><i class="fi fi-rs-user mr-10"></i>My Account</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('dashboard') }}"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('dashboard') }}"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('dashboard') }}"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('dashboard') }}"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ route('user.logout') }}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <a href="page-account.html"><span class="lable ml-0">Account</span></a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                    <ul>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('dashboard') }}"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('user.logout') }}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
+                                        </li>
+                                    </ul>
+                                </div>
 
                                 @else
-                                    <a href="{{ route('login') }}"><span class="lable ml-0">Login</span></a>
+                                <a href="{{ route('login') }}"><span class="lable ml-0">Login</span></a>
 
-                                    <span class="lable" style="margin-left: 2px; margin-right: 2px;" > | </span>
+                                <span class="lable" style="margin-left: 2px; margin-right: 2px;"> | </span>
 
 
-                                    <a href="{{ route('register') }}"><span class="lable ml-0">Register</span></a>
+                                <a href="{{ route('register') }}"><span class="lable ml-0">Register</span></a>
 
                                 @endauth
 
@@ -208,23 +208,23 @@
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-categori-wrap d-none d-lg-block">
                         <a class="categories-button-active" href="#">
-                            <span class="fi-rs-apps"></span>   All Categories
+                            <span class="fi-rs-apps"></span> All Categories
                             <i class="fi-rs-angle-down"></i>
                         </a>
                         <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
                             <div class="d-flex categori-dropdown-inner">
                                 <ul>
                                     @foreach($categories as $item)
-                                        <li>
-                                            <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}l"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}l"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
+                                    </li>
                                     @endforeach
                                 </ul>
                                 <ul class="end">
                                     @foreach($categories as $item)
-                                        <li>
-                                            <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
-                                        </li>
+                                    <li>
+                                        <a href="{{url('/product/category/'.$item->id.'/'.$item->category_slug)}}"> <img src="{{ asset( $item->category_image ) }}" alt="" /> {{ $item->category_name }} </a>
+                                    </li>
                                     @endforeach
 
                                 </ul>
@@ -257,35 +257,35 @@
                             <ul>
 
                                 <li>
-                                    <a class="active" href="{{url('/')}}">Home  </a>
+                                    <a class="active" href="{{url('/')}}">Home </a>
 
                                 </li>
 
                                 @php
 
-                                    $categories = App\Models\Category::orderBy('category_name','ASC')->limit(6)->get();
+                                $categories = App\Models\Category::orderBy('category_name','ASC')->limit(6)->get();
                                 @endphp
 
                                 @foreach($categories as $category)
-                                    <li>
-                                        <a href="{{url('/product/category/'.$category->id.'/'.$category->category_slug)}}">{{ $category->category_name }} <i class="fi-rs-angle-down"></i></a>
+                                <li>
+                                    <a href="{{url('/product/category/'.$category->id.'/'.$category->category_slug)}}">{{ $category->category_name }} <i class="fi-rs-angle-down"></i></a>
 
-                                        @php
-                                            $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
-                                        @endphp
+                                    @php
+                                    $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
+                                    @endphp
 
-                                        <ul class="sub-menu">
-                                            @foreach($subcategories as $subcategory)
-                                                <li><a href="{{url('/product/subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug)}}">{{ $subcategory->subcategory_name }}</a></li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
+                                    <ul class="sub-menu">
+                                        @foreach($subcategories as $subcategory)
+                                        <li><a href="{{url('/product/subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug)}}">{{ $subcategory->subcategory_name }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                </li>
                                 @endforeach
 
 
 
                                 <li>
-                                    <a href="page-contact.html">Contact</a>
+                                    <a href="{{route('home.blog')}}">Blog</a>
                                 </li>
                             </ul>
                         </nav>

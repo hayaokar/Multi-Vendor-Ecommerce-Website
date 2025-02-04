@@ -28,6 +28,8 @@ use App\Http\Controllers\VendorOrderController;
 use App\Http\Controllers\wishlistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Models\BlogPost;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -276,6 +278,11 @@ Route::controller(CartController::class)->group(function () {
 Route::controller(StripeController::class)->group(function () {
     Route::post('/stripe/order', 'StripeOrder')->name('stripe.order');
     Route::post('/cash/order', 'CashOrder')->name('cash.order');
+});
+
+//Blog Home Routes 
+Route::controller(BlogPostController::class)->group(function () {
+    Route::get('/blog', 'homeBlog')->name('home.blog');
 });
 //Frontend Product Details All Routes
 Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']);
