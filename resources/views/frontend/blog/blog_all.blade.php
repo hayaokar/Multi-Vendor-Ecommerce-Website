@@ -10,6 +10,10 @@
                     <div class="breadcrumb">
                         <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
                         <span></span> Blog & News
+
+                        @if(isset($blogcategory))
+                        <span></span> {{$blogcategory->name}}
+                        @endif
                     </div>
                 </div>
 
@@ -76,7 +80,7 @@
                         </div>
                         <div class="entry-content-2 pl-50">
                             <h3 class="post-title mb-20">
-                                <a href="blog-post-right.html">{{ $post->title }}</a>
+                                <a href="{{route('home.blog.details',[$post->id,$post->slug])}}">{{ $post->title }}</a>
                             </h3>
                             <p class="post-exerpt mb-40">{{ $post->short_description }}</p>
                             <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
@@ -84,7 +88,7 @@
                                     <span class="post-on">{{ $post->created_at->format('M d Y') }}</span>
 
                                 </div>
-                                <a href="blog-post-right.html" class="text-brand font-heading font-weight-bold">Read more <i class="fi-rs-arrow-right"></i></a>
+                                <a href="{{route('home.blog.details',[$post->id,$post->slug])}}" class="text-brand font-heading font-weight-bold">Read more <i class="fi-rs-arrow-right"></i></a>
                             </div>
                         </div>
                     </article>
@@ -129,9 +133,8 @@
                             @php
                             $posts = App\Models\BlogPost::where('category_id',$category->id)->get();
                             @endphp
-
                             <li>
-                                <a href="shop-grid-right.html"> <img src="{{ asset('frontend/assets/imgs/theme/icons/category-1.svg') }}" alt="" />{{ $category->blog_category_name }}</a><span class="count">{{ count($posts) }}</span>
+                                <a href="{{route('home.category.blogs',[$category->id,$category->slug])}}"> <img src="{{ asset('frontend/assets/imgs/theme/icons/category-1.svg') }}" alt="" />{{ $category->name }}</a><span class="count">{{ count($posts) }}</span>
                             </li>
                             @endforeach
                         </ul>

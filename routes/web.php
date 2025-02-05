@@ -283,6 +283,8 @@ Route::controller(StripeController::class)->group(function () {
 //Blog Home Routes 
 Route::controller(BlogPostController::class)->group(function () {
     Route::get('/blog', 'homeBlog')->name('home.blog');
+    Route::get('/blog/{id}/{slug}', 'homeBlogDetails')->name('home.blog.details');
+    Route::get('/blog/category/{id}/{slug}', 'homeCategoryBlogs')->name('home.category.blogs');
 });
 //Frontend Product Details All Routes
 Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']);
