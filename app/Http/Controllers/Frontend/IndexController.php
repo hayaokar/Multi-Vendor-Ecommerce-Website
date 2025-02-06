@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\category;
 use App\Models\MultiImage;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class IndexController extends Controller
         $product_size = explode(',',$product->product_size);
         $multiImg = MultiImage::where('product_id',$product->id)->get();
         $related_products = Product::where('category_id',$product->category_id)->where('id','!=',$id)->orderBy('id','DESC')->limit(4)->get();
-
-        return view('frontend.product.product_details',compact('product','product_size','product_color','multiImg','related_products'));
+        $reviews = Review::where('product_id',$id)->where('status','!=','0')->latest()->limit(5)->get();
+        $average = $reviews->avg('rating');
+        return view('frontend.product.product_details',compact('product','product_size','product_color','multiImg','related_products','reviews','average'));
     }
 
     public function Index(){

@@ -18,6 +18,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CheckoutController;
+use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\Wishlist;
 use App\Http\Controllers\VendorController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Baxkend\ReportController;
 use App\Http\Controllers\VendorOrderController;
 use App\Http\Controllers\wishlistController;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Models\BlogPost;
@@ -91,6 +93,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/orders/', [UserController::class, 'UserOrders'])->name('user.orders');
     Route::get('/view/order/{order}', [UserController::class, 'ViewOrder'])->name('view.order');
     Route::get('/invoice/order/{order}', [UserController::class, 'InvoiceOrder'])->name('invoice.order');
+    Route::controller(ReviewController::class)->group(function (){
+        Route::post('review/add','AddReview')->name('review.add');
+    });
 });
 
 
@@ -280,7 +285,7 @@ Route::controller(StripeController::class)->group(function () {
     Route::post('/cash/order', 'CashOrder')->name('cash.order');
 });
 
-//Blog Home Routes 
+//Blog Home Routes
 Route::controller(BlogPostController::class)->group(function () {
     Route::get('/blog', 'homeBlog')->name('home.blog');
     Route::get('/blog/{id}/{slug}', 'homeBlogDetails')->name('home.blog.details');
