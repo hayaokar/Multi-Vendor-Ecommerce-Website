@@ -24,6 +24,16 @@ class ReviewController extends Controller
             'alert-type' => 'success'
         ];
         return redirect()->back()->with($notification);
+    }
+    public function pendingReviews()
+    {
+        $reviews =  Review::where('status', 0)->latest()->get();
+        return view('backend.reviews.pending_reviews', compact('reviews'));
+    }
+    public function acceptedReviews()
+    {
+        $reviews =  Review::where('status', 1)->latest()->get();
+        return view('backend.reviews.accepted_reviews', compact('reviews'));
 
     }
 }

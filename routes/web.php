@@ -249,6 +249,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/admin/blog/post/update','updatePost')->name('admin.blog.post.update');
         Route::get('/admin/blog/post/delete/{post}','deletePost')->name('admin.blog.post.delete');
     });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/admin/reviews/pending', 'pendingReviews')->name('admin.reviews.pending');
+        Route::get('/admin/reviews/accepted', 'acceptedReviews')->name('admin.reviews.accepted');
+    });
+
+    
 });
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);

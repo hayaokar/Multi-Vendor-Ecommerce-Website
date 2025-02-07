@@ -220,6 +220,24 @@
         </li>
         <li>
             <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                </div>
+                <div class="menu-title">Reviws Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('admin.reviews.pending')}}"><i class="bx bx-right-arrow-alt"></i>Pending Reviews</a>
+                </li>
+
+            </ul>
+            <ul>
+                <li> <a href="{{route('admin.reviews.accepted')}}"><i class="bx bx-right-arrow-alt"></i>Accepted Reviews</a>
+                </li>
+
+            </ul>
+
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class="bx bx-category"></i>
                 </div>
                 <div class="menu-title">Application</div>
