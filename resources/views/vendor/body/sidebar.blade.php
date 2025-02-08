@@ -71,6 +71,18 @@
         </li>
         @else
         @endif
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                </div>
+                <div class="menu-title">Manage Reviews</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('vendor.reviews')}}"><i class="bx bx-right-arrow-alt"></i>Products Reviews</a>
+                </li>
+
+            </ul>
+        </li>
 
 
     </ul>

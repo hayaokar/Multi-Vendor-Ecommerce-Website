@@ -78,6 +78,9 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
     Route::controller(VendorOrderController::class)->group(function () {
         Route::get('/vendor/orders', 'VendorOrders')->name('vendor.orders');
     });
+    Route::controller(ReviewController::class)->group(function (){
+        Route::get('/vendor/reviews','VendorReviews')->name('vendor.reviews');
+    });
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -252,9 +255,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/admin/reviews/pending', 'pendingReviews')->name('admin.reviews.pending');
         Route::get('/admin/reviews/accepted', 'acceptedReviews')->name('admin.reviews.accepted');
+        Route::get('/admin/reviews/accept/{review}', 'acceptReview')->name('admin.reviews.accept');
+        Route::get('/admin/reviews/reject/{review}', 'rejectReview')->name('admin.reviews.reject');
     });
 
-    
+
 });
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminController::class, 'AdminLogin']);

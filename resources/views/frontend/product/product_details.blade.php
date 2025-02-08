@@ -1,5 +1,8 @@
 @extends('frontend.master_dashboard')
 @section('main')
+    @section('title')
+        {{ $product->product_name }}
+    @endsection
     <style>
         .rating {
             display: flex;

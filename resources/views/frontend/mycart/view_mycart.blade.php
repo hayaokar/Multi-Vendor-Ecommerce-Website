@@ -1,6 +1,8 @@
 @extends('frontend.master_dashboard')
 @section('main')
-
+    @section('title')
+        Cart
+    @endsection
     <div class="page-header breadcrumb-wrap">
         <div class="container">
             <div class="breadcrumb">

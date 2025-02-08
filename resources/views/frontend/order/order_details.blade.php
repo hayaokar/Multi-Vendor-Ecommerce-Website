@@ -1,7 +1,9 @@
 @extends('dashboard')
 @section('user')
 <!-- // Start Col md 9  -->
-
+@section('title')
+    Order
+@endsection
 <div class="row">
 
     <div class="col-md-6">

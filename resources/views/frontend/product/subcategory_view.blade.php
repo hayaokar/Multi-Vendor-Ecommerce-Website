@@ -1,5 +1,8 @@
 @extends('frontend.master_dashboard')
 @section('main')
+    @section('title')
+        {{ $breadsubcat->category->category_name }} > {{ $breadsubcat->subcategory_name }}
+    @endsection
     <div class="page-header mt-30 mb-50">
         <div class="container">
             <div class="archive-header">
@@ -107,10 +110,27 @@
                                     </div>
                                     <h2><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug) }}"> {{ $product->product_name }} </a></h2>
                                     <div class="product-rate-cover">
-                                        <div class="product-rate d-inline-block">
-                                            <div class="product-rating" style="width: 90%"></div>
+                                        <div class="product-rate-cover">
+                                            @php
+                                                $reviews = \App\Models\Review::where('product_id',$product->id)->get();
+                                            @endphp
+                                            @if(count($reviews)!=0)
+                                                @php
+                                                    $avg =$reviews->avg('rating');
+                                                @endphp
+                                                <span class="font-small ml-5 text-muted">
+                                            @for($i=1; $i<=$avg;$i++)
+                                                        <span style="color: gold">★</span>
+                                                    @endfor
+                                                    @for($i=1; $i<=(5-$avg);$i++)
+                                                        <span >★</span>
+                                                    @endfor</span>
+                                            @else
+                                                <span class="font-small ml-5 text-muted">
+                                                    No Reviews
+                                                </span>
+                                            @endif
                                         </div>
-                                        <span class="font-small ml-5 text-muted"> (4.0)</span>
                                     </div>
                                     <div>
                                         @if($product->vendor_id == NULL)
