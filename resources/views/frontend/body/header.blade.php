@@ -15,7 +15,7 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                         <ul>
 
                             <li><a href="page-account.html">My Cart</a></li>
-                            <li><a href="{{route('all.wishlist')}}">Checkout</a></li>
+                            <li><a href="shop-wishlist.html">Checkout</a></li>
                             <li><a href="shop-order.html">Order Tracking</a></li>
                         </ul>
                     </div>
@@ -58,11 +58,14 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
             </div>
         </div>
     </div>
+    @php
+        $setting = App\Models\SiteSettings::find(1);
+    @endphp
     <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="{{url('/')}}"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
+                    <a href="index.html"><img src="{{ asset($setting->logo)   }}" alt="logo" /></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -257,35 +260,35 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                             <ul>
 
                                 <li>
-                                    <a class="active" href="{{url('/')}}">Home </a>
+                                    <a class="active" href="{{ url('/') }}">Home  </a>
 
                                 </li>
 
                                 @php
 
-                                $categories = App\Models\Category::orderBy('category_name','ASC')->limit(6)->get();
+                                    $categories = App\Models\Category::orderBy('category_name','ASC')->limit(6)->get();
                                 @endphp
 
                                 @foreach($categories as $category)
-                                <li>
-                                    <a href="{{url('/product/category/'.$category->id.'/'.$category->category_slug)}}">{{ $category->category_name }} <i class="fi-rs-angle-down"></i></a>
+                                    <li>
+                                        <a href="{{ url('product/category/'.$category->id.'/'.$category->category_slug) }}">{{ $category->category_name }} <i class="fi-rs-angle-down"></i></a>
 
-                                    @php
-                                    $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
-                                    @endphp
+                                        @php
+                                            $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
+                                        @endphp
 
-                                    <ul class="sub-menu">
-                                        @foreach($subcategories as $subcategory)
-                                        <li><a href="{{url('/product/subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug)}}">{{ $subcategory->subcategory_name }}</a></li>
-                                        @endforeach
-                                    </ul>
-                                </li>
+                                        <ul class="sub-menu">
+                                            @foreach($subcategories as $subcategory)
+                                                <li><a href="{{ url('product/subcategory/'.$subcategory->id.'/'.$subcategory->subcategory_slug) }}">{{ $subcategory->subcategory_name }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                 @endforeach
 
 
 
                                 <li>
-                                    <a href="{{route('home.blog')}}">Blog</a>
+                                    <a href="{{ route('home.blog') }}">Blog</a>
                                 </li>
                             </ul>
                         </nav>
@@ -295,7 +298,7 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
 
                 <div class="hotline d-none d-lg-flex">
                     <img src="{{ asset('frontend/assets/imgs/theme/icons/icon-headphone.svg') }}" alt="hotline" />
-                    <p>1900 - 888<span>24/7 Support Center</span></p>
+                    <p>{{ $setting->support_phone }}<span>24/7 Support Center</span></p>
                 </div>
                 <div class="header-action-icon-2 d-block d-lg-none">
                     <div class="burger-icon burger-icon-white">

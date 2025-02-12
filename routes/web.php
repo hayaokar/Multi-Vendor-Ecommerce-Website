@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BlogPostController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ShippingAreaController;
+use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\VendorProductController;
@@ -257,6 +258,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/reviews/accepted', 'acceptedReviews')->name('admin.reviews.accepted');
         Route::get('/admin/reviews/accept/{review}', 'acceptReview')->name('admin.reviews.accept');
         Route::get('/admin/reviews/reject/{review}', 'rejectReview')->name('admin.reviews.reject');
+    });
+    Route::controller(SiteSettingController::class)->group(function (){
+        Route::get('/site/setting','SiteSetting')->name('site.setting');
+        Route::post('/site/setting/update','SiteSettingUpdate')->name('site.setting.update');
+        Route::get('/seo/setting','SeoSetting')->name('seo.setting');
+        Route::post('/seo/setting/update','SeoSettingUpdate')->name('seo.setting.update');
+
+
     });
 
 

@@ -222,10 +222,33 @@
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
                 </div>
-                <div class="menu-title">Reviws Manage</div>
+                <div class="menu-title">Reviews Manage</div>
             </a>
             <ul>
                 <li> <a href="{{route('admin.reviews.pending')}}"><i class="bx bx-right-arrow-alt"></i>Pending Reviews</a>
+                </li>
+
+            </ul>
+            <ul>
+                <li> <a href="{{route('admin.reviews.accepted')}}"><i class="bx bx-right-arrow-alt"></i>Accepted Reviews</a>
+                </li>
+
+            </ul>
+
+        </li>
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-home-circle'></i>
+                </div>
+                <div class="menu-title">Setting Manage</div>
+            </a>
+            <ul>
+                <li> <a href="{{route('site.setting')}}"><i class="bx bx-right-arrow-alt"></i>Site Setting</a>
+                </li>
+
+            </ul>
+            <ul>
+                <li> <a href="{{route('seo.setting')}}"><i class="bx bx-right-arrow-alt"></i>SEO Setting</a>
                 </li>
 
             </ul>
