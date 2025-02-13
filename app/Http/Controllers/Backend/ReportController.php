@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Baxkend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use DateTime;
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\User;
+use DateTime;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {

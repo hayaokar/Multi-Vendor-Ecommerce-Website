@@ -4,7 +4,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Backend\ActiveUserController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\BlogPostController;
+use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\ShippingAreaController;
 use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Backend\SliderController;
@@ -22,16 +24,11 @@ use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
 use App\Http\Controllers\User\Wishlist;
-use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Backend\BrandController;
-use App\Http\Controllers\Baxkend\ReportController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorOrderController;
 use App\Http\Controllers\wishlistController;
-use App\Models\Review;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\RedirectIfAuthenticated;
-use App\Models\BlogPost;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +72,8 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
         Route::get('/vendor/product/inactive/{id}', 'VendorProductInactive')->name('vendor.product.inactive');
         Route::get('/vendor/product/active/{id}', 'VendorProductActive')->name('vendor.product.active');
         Route::get('/vendor/delete/product/{id}', 'VendorDeleteProduct')->name('vendor.delete.product');
+
+
     });
     Route::controller(VendorOrderController::class)->group(function () {
         Route::get('/vendor/orders', 'VendorOrders')->name('vendor.orders');
@@ -159,6 +158,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/product/inactive/{id}', 'ProductInactive')->name('product.inactive');
         Route::get('/product/active/{id}', 'ProductActive')->name('product.active');
         Route::get('/delete/product/{id}', 'DeleteProduct')->name('delete.product');
+        Route::get('/product/stock','ProductStock')->name('product.stock');
     });
 
     //Slider Routes

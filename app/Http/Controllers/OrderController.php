@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -57,6 +58,11 @@ class OrderController extends Controller
     }
     public function OrderDeliver(Order $order)
     {
+        $orderItems = $order->orderItems->pluck('qty','product_id');
+        Product::whereIn('id',$orderItems->keys())
+            ->each(function ($product) use ($orderItems){
+                $product->decrement('product_qty',$orderItems[$product->id]);
+            });
         $order->update(['status' => 'delivered']);
         $notification = array(
             'message' => 'Order Marked as Delivered Successfully',
