@@ -108,5 +108,20 @@ class UserController extends Controller
         return $pdf->download('invoice.pdf');
 
     }
+    public function UserTrackOrders(){
+        return view('frontend.userdashboard.user_track');
+    }
+    public function UserTrackOrder(Request $request){
+        $invoice_no = $request->code;
+        $track = Order::where('invoice_no',$invoice_no)->first();
+        if($track){
+            return view('frontend.tracking.track_order',compact('track'));
+        }
+        $notification = array(
+            'message' => 'Invoice Code Is Invalid',
+            'alert-type' => 'error'
+        );
+        return redirect()->back()->with($notification);
+    }
 
 }

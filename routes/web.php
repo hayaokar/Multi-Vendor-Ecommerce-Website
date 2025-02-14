@@ -90,6 +90,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/change/password/', [UserController::class, 'UserChangePassword'])->name('user.change.password');
     Route::get('/user/change/password/view', [UserController::class, 'UserChangePasswordView'])->name('user.password');
     Route::get('/user/account/details', [UserController::class, 'UserAccountDetails'])->name('user.account.details');
+    Route::get('/user/track', [UserController::class, 'UserTrackOrders'])->name('user.track.orders');
+    Route::post('/user/track', [UserController::class, 'UserTrackOrder'])->name('user.track.order');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
