@@ -76,4 +76,17 @@ class IndexController extends Controller
             'vendor' => $vendor_id
         ));
     }
+    public function SearchProduct(Request $request){
+        $search = $request->search;
+        $request->validate(['search'=>'required']);
+        $products= Product::where('product_name','LIKE',"%$search%")->get();
+        $categories = category::orderBy('category_name','ASC')->get();
+        $newProduct = Product::orderBy('id','DESC')->limit(3)->get();
+
+        return view('frontend.product.category_view',compact('products','categories','newProduct','search'));
+    }
+    public function SearchProductAjax(Request $request){
+        $products= Product::where('product_name','LIKE',"%$request->search%")->get();
+        return response()->json($products);
+    }
 }

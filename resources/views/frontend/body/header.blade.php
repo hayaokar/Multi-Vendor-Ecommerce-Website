@@ -69,15 +69,28 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
-                        <form action="#">
+                        <div class="row">
+                        <form action="{{route('search')}}" method="GET">
+                            @csrf
                             <select class="select-active">
                                 <option>All Categories</option>
                                 @foreach($categories as $item)
                                 <option>{{$item->category_name}}</option>
                                 @endforeach
                             </select>
-                            <input type="text" placeholder="Search for items..." />
+                            <input onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" type="text" placeholder="Search for items..." />
                         </form>
+                            <div>
+                            <div class="container mt-5">
+                                    <div class="card" style="max-width:700px" id="result-info">
+
+
+                                    </div>
+
+                            </div>
+
+                        </div>
+                        </div>
                     </div>
                     <div class="header-action-right">
                         <div class="header-action-2">
@@ -367,7 +380,17 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
 
 <!-- End Header  -->
 
+<script>
+    function search_result_show(){
+        //$("#result-info").slideDown();
 
+    }
+
+    function search_result_hide(){
+       //$("#result-info").slideUp();
+    }
+    var baseUrl = @json(url('/'));
+</script>
 
 
 <div class="mobile-header-active mobile-header-wrapper-style">

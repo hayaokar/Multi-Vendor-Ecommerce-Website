@@ -315,6 +315,8 @@ Route::controller(BlogPostController::class)->group(function () {
 });
 //Frontend Product Details All Routes
 Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']);
+Route::get('/search/', [IndexController::class, 'SearchProduct'])->name('search');
+Route::post('/search-ajax/', [IndexController::class, 'SearchProductAjax']);
 Route::get('/vendor/details/{id}', [IndexController::class, 'vendorDetails'])->name('vendor.details');
 Route::get('/vendor/all', [IndexController::class, 'vandorAll'])->name('vendor.all');
 Route::get('/product/category/{id}/{slug}', [IndexController::class, 'catWiseProduct']);
