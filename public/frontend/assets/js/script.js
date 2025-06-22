@@ -4,7 +4,7 @@ $("#search").on('keyup',function (){
         $.ajax({
             type:"POST",
             datatype: "JSON",
-            url:"http://127.0.0.1:8000/search-ajax",
+            url:"/search-ajax",
             data:{
                 "search":serach
             },
