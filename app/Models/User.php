@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
-
+use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -41,5 +42,9 @@ class User extends Authenticatable
     ];
     public function userOnline(){
         return Cache::has('user-is-online' . $this->id);
+    }
+    public static function getpermissionByGroupName($group_name){
+        $permissions = DB::table('permissions')->select('name','id')->where('group_name',$group_name)->get();
+        return $permissions;
     }
 }

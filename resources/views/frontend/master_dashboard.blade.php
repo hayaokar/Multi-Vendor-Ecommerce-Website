@@ -782,6 +782,10 @@
     }
 
     $("#search").on('keyup',function (){
+        if(($(this).val()).length==0){
+            $('#result-div').css('display','none')
+            return;
+        }
         if(($(this).val()).length>2){
             let serach = $(this).val()
             $.ajax({
@@ -819,6 +823,7 @@
                     }else{
                         html = '<span class="text-center text-muted">No products found</span>'
                     }
+                    $('#result-div').css('display','block')
                     $('#result-info').html(html)
 
                 }

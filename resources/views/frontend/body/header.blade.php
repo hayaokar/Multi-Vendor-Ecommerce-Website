@@ -80,14 +80,14 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                             </select>
                             <input onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" type="text" placeholder="Search for items..." />
                         </form>
-                            <div>
-                            <div class="container mt-5">
-                                    <div class="card" style="max-width:700px" id="result-info">
+
+                            <div class="container mt-5" id="result-div" style="display: none">
+                                    <div class="card" style="max-width:700px;justify-content: center;" id="result-info">
 
 
                                     </div>
 
-                            </div>
+
 
                         </div>
                         </div>
