@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderMail;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Notifications\OrderComplete;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Stripe\Charge;
 
@@ -18,6 +21,8 @@ class StripeController extends Controller
 {
     //
     public function StripeOrder(Request $request){
+
+        $user = User::where('role','admin')->get();
 
         if(Session::has('coupon')){
             $total_amount = Session::get('coupon')['total_amount'];
@@ -93,6 +98,8 @@ class StripeController extends Controller
             'alert-type' => 'success'
         );
 
+        Notification::send($user, new OrderComplete($request->name));
+
         return redirect()->route('user.dashboard')->with($notification);
 
 
@@ -101,6 +108,8 @@ class StripeController extends Controller
 
     public function CashOrder(Request $request){
 
+
+        $user = \App\Models\User::where('role','admin')->get();
         if(Session::has('coupon')){
             $total_amount = Session::get('coupon')['total_amount'];
         }else{
@@ -176,6 +185,8 @@ class StripeController extends Controller
             'message' => 'We have received your order #no. ' . $order_id ,
             'alert-type' => 'success'
         );
+
+        Notification::send($user, new OrderComplete($request->name));
 
         return redirect()->route('user.dashboard')->with($notification);
 

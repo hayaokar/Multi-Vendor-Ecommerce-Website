@@ -303,6 +303,9 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                                 <li>
                                     <a href="{{ route('home.blog') }}">Blog</a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('home.shop') }}">Shop</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>

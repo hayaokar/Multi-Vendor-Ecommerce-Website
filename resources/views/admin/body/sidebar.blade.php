@@ -19,7 +19,7 @@
                 <div class="menu-title">Dashbaord</div>
             </a>
         </li>
-
+        @if(\Illuminate\Support\Facades\Auth::user()->can('brand.menu'))
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-home-circle'></i>
@@ -34,6 +34,7 @@
 
             </ul>
         </li>
+        @endif
 
         <li>
             <a href="javascript:;" class="has-arrow">

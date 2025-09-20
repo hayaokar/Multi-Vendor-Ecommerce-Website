@@ -21,6 +21,7 @@ use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\StripeController;
@@ -334,6 +335,10 @@ Route::controller(StripeController::class)->group(function () {
     Route::post('/cash/order', 'CashOrder')->name('cash.order');
 });
 
+Route::controller(ShopController::class)->group(function (){
+    Route::get('/shop','ShopPage')->name('home.shop');
+    Route::post('/shop/filter','ShopFilter')->name('shop.filter');
+});
 //Blog Home Routes
 Route::controller(BlogPostController::class)->group(function () {
     Route::get('/blog', 'homeBlog')->name('home.blog');
